@@ -23,7 +23,7 @@ class PlotsTable
                 TextColumn::make('block')
                     ->label(__('formlabel.block'))
                     ->searchable(),
-                TextColumn::make('area')
+                TextColumn::make('area.area_name')
                     ->label(__('formlabel.area'))
                     ->searchable(),
                 TextColumn::make('buildings_count')

@@ -23,6 +23,8 @@ return new class extends Migration
 
             $table->decimal('ownership_percent', 5, 2)
                 ->default(100);
+            $table->date('start_date');
+            $table->date('end_date')->nullable();
 
             $table->boolean('is_current')
                 ->default(true);

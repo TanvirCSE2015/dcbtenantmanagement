@@ -15,4 +15,12 @@ class PlotOwner extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function transferItems()
+    {
+        return $this->morphMany(
+            OwnershipTransferItem::class,
+            'owner'
+        );
+    }
 }

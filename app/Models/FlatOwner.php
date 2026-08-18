@@ -25,4 +25,12 @@ class FlatOwner extends Model
     {
         return $this->hasMany(OwnerOccupancy::class);
     }
+
+    public function transferItems()
+    {
+        return $this->morphMany(
+            OwnershipTransferItem::class,
+            'owner'
+        );
+    }
 }

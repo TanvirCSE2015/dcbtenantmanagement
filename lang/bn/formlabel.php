@@ -2,6 +2,11 @@
 
 return [
 
+    //area form label
+    'area_info' => 'এরিয়ার তথ্য',
+    'area_name' => 'এরিয়ার নাম',
+    'description' => 'বিবরণ',
+
     'owner_name' => 'মালিকের নাম',
     'ownership_percent' => 'মালিকানার শতাংশ',
     'is_current' => 'বর্তমান মালিক',

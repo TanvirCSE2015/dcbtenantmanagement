@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Plots\Schemas;
 
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
@@ -32,9 +33,13 @@ class PlotForm
                                     ->default(null)
                                     ->suffix('  স্কয়ার ফিট'),
                                 
-                                TextInput::make('area')
+                                // TextInput::make('area')
+                                //     ->label(__('formlabel.area'))
+                                //     ->default(null),
+                                Select::make('area_id')
                                     ->label(__('formlabel.area'))
-                                    ->default(null),
+                                    ->relationship('area', 'area_name')
+                                    ->preload(),
                             ]),
                     ])->columnSpanFull(),
             ]);
