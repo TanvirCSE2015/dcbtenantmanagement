@@ -40,4 +40,16 @@ class User extends Authenticatable
     {
         return $this->hasMany(FlatOwner::class);
     }
+
+    public function currentPlotOwners()
+    {
+        return $this->hasMany(PlotOwner::class)
+            ->where('is_current', true);
+    }
+
+    public function currentFlatOwners()
+    {
+        return $this->hasMany(FlatOwner::class)
+            ->where('is_current', true);
+    }
 }

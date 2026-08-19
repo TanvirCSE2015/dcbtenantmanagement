@@ -6,6 +6,7 @@ use App\Filament\Resources\Flats\Pages\CreateFlat;
 use App\Filament\Resources\Flats\Pages\EditFlat;
 use App\Filament\Resources\Flats\Pages\ListFlats;
 use App\Filament\Resources\Flats\RelationManagers\OccupanciesRelationManager;
+use App\Filament\Resources\Flats\RelationManagers\OwnershipTransfersRelationManager;
 use App\Filament\Resources\Flats\RelationManagers\OwnersRelationManager;
 use App\Filament\Resources\Flats\Schemas\FlatForm;
 use App\Filament\Resources\Flats\Tables\FlatsTable;
@@ -50,6 +51,7 @@ class FlatResource extends Resource
     {
         return [
             OwnersRelationManager::class,
+            OwnershipTransfersRelationManager::class,
             OccupanciesRelationManager::class,
         ];
     }

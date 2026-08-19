@@ -14,6 +14,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
@@ -48,39 +49,118 @@ class OwnersRelationManager extends RelationManager
     {
         return $schema
             ->schema([
-                TextInput::make('name')
-                    ->label('নাম')
-                    ->required()
-                    ->formatStateUsing(fn ($record) => $record?->user?->name),
-
-                TextInput::make('email')
-                    ->label('ইমেইল')
-                    ->email()
-                    ->required()
-                    ->formatStateUsing(fn ($record) => $record?->user?->email),
-
-                TextInput::make('mobile')
-                    ->label('মোবাইল')
-                    ->required()
-                    ->unique(
-                        table: 'users',
-                        column: 'mobile'
+                Select::make('user_id')
+                    ->label('মালিক')
+                    ->options(
+                        User::query()
+                            ->orderBy('name')
+                            ->pluck('name', 'id')
                     )
-                    ->formatStateUsing(fn ($record) => $record?->user?->mobile),
+                    ->searchable()
+                    ->preload()
+                    ->required()
+                    ->createOptionForm([
+                        Grid::make(3)
+                            ->schema([
+
+                                TextInput::make('name')
+                                    ->label('নাম')
+                                    ->required(),
+
+                                TextInput::make('email')
+                                    ->label('ইমেইল')
+                                    ->email()
+                                    ->required()
+                                    ->unique(
+                                        table: 'users',
+                                        column: 'email'
+                                    ),
+
+                                TextInput::make('mobile')
+                                    ->label('মোবাইল')
+                                    ->required()
+                                    ->unique(
+                                        table: 'users',
+                                        column: 'mobile'
+                                    ),
+                            ]),
+                    ])
+                    ->createOptionUsing(function (array $data): int {
+
+                        $user = User::create([
+                            'name'      => $data['name'],
+                            'email'     => $data['email'],
+                            'mobile'    => $data['mobile'],
+                            'password'  => bcrypt('12345678'),
+                            'is_active' => true,
+                        ]);
+
+                        return $user->id;
+                    }),
 
             // TextInput::make('nid')
             //     ->label('এনআইডি'),
 
             TextInput::make('ownership_percent')
-                ->label('মালিকানার %')
+                ->label(__('formlabel.ownership_percent'))
                 ->numeric()
-                ->default(100)
-                ->required(),
+                ->minValue(0.01)
+                ->maxValue(function () {
+
+                    $currentTotal = $this->getOwnerRecord()
+                        ->owners()
+                        ->where('is_current', true)
+                        ->sum('ownership_percent');
+
+                    return max(0, 100 - $currentTotal);
+                })
+                ->default(function () {
+
+                    $currentTotal = $this->getOwnerRecord()
+                        ->owners()
+                        ->where('is_current', true)
+                        ->sum('ownership_percent');
+
+                    return max(0, 100 - $currentTotal);
+                })
+                ->required()
+                ->rules([
+                    fn () => function (
+                        string $attribute,
+                        $value,
+                        \Closure $fail
+                    ) {
+
+                        $currentTotal = $this->getOwnerRecord()
+                            ->owners()
+                            ->where('is_current', true)
+                            ->sum('ownership_percent');
+
+                        if (($currentTotal + (float) $value) > 100) {
+
+                            $remaining = max(0, 100 - $currentTotal);
+
+                            $fail(
+                                "মালিকানার মোট পরিমাণ ১০০% এর বেশি হতে পারবে না। "
+                                . "বর্তমানে {$currentTotal}% মালিকানা রয়েছে। "
+                                . "সর্বোচ্চ আরও {$remaining}% যোগ করা যাবে।"
+                            );
+                        }
+                    },
+                ]),
 
             DatePicker::make('ownership_start_date')
                 ->label('মালিকানা শুরুর তারিখ')
                 ->default(now())
                 ->required(),
+
+            DatePicker::make('ownership_end_date')
+                ->label('মালিকানা শেষের তারিখ')
+                ->default(now())
+                ->required(),
+            Toggle::make('is_current')
+                    ->label('বর্তমান মালিক')
+                    ->default(true),
             ]);
     }
 
@@ -101,27 +181,26 @@ class OwnersRelationManager extends RelationManager
             ->headerActions([
                 CreateAction::make()
                     ->icon('heroicon-o-plus')
+                    ->hidden(function () {
+
+                        $currentTotal = $this->getOwnerRecord()
+                            ->owners()
+                            ->where('is_current', true)
+                            ->sum('ownership_percent');
+
+                        return $currentTotal >= 100;
+                    })
                     ->using(function (array $data) {
-
-                        $password = '12345678';
-
-                        $user = User::create([
-                            'name'      => $data['name'],
-                            'email'     => $data['email'],
-                            'mobile'    => $data['mobile'],
-                            'password'  => bcrypt($password),
-                            'is_active' => true,
-                        ]);
-
-                        // $user->assignRole('Plot Owner');
 
                         return $this->getOwnerRecord()
                             ->owners()
                             ->create([
-                                'user_id' => $user->id,
+                                'user_id'           => $data['user_id'],
                                 'ownership_percent' => $data['ownership_percent'],
-                                'ownership_start_date' => $data['ownership_start_date'],
-                                'created_by' => auth()->id(),
+                                'start_date'        => $data['start_date'],
+                                'end_date'          => $data['end_date'] ?? null,
+                                'is_current'        => $data['is_current'] ?? true,
+                                'created_by'        => auth()->id(),
                             ]);
                     }),
             ])
