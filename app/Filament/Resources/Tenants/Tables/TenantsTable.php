@@ -2,9 +2,11 @@
 
 namespace App\Filament\Resources\Tenants\Tables;
 
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -57,7 +59,16 @@ class TenantsTable
                 //
             ])
             ->recordActions([
-                EditAction::make(),
+                EditAction::make()
+                    ->label(''),
+                Action::make('print')
+                    ->icon(Heroicon::Printer)
+                    ->color('success')
+                    ->label('')
+                    ->url(fn ($record) => route('single-tenant.print', [
+                        'tenant' => $record->id,
+                    ]))
+            ->openUrlInNewTab(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
