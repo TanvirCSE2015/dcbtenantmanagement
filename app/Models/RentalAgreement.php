@@ -66,4 +66,8 @@ class RentalAgreement extends Model
     // {
     //     return $this->hasMany(PreviousAddress::class);
     // }
+    public function profession()
+    {
+        return $this->hasOne(TenantProfession::class);
+    }
 }

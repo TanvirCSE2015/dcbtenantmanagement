@@ -6,6 +6,7 @@ use App\Filament\Resources\Tenants\TenantResource;
 use App\Models\EmergencyContact;
 use App\Models\Occupancy;
 use App\Models\RentalAgreement;
+use App\Models\TenantProfession;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -42,10 +43,15 @@ class CreateTenant extends CreateRecord
                 'father_name'   => $data['father_name'],
                 'mother_name'   => $data['mother_name'],
                 'date_of_birth' => $data['date_of_birth'],
+                'birth_place' => $data['birth_place'],
+                'religion' => $data['religion'],
+                'education' => $data['education'],
+                'marital_status' => $data['marital_status'],
                 'nid_no'        => $data['nid_no'],
                 'passport_no'   => $data['passport_no'],
                 'mobile'        => $data['mobile'],
-                'profession'    => $data['profession'],
+                'email' => $data['email'],
+                // 'profession'    => $data['profession'],
                 'photo'         => $data['photo'],
             ]);
 
@@ -92,6 +98,15 @@ class CreateTenant extends CreateRecord
                 'relation'            => $data['relation'],
                 'mobile'              => $data['mobile'],
                 'address'             => $data['address'] ?? null,
+            ]);
+
+            TenantProfession::create([
+                'rental_agreement_id' => $agreement->id,
+                'title_p'                => $data['title_p'],
+                'office_name'            => $data['office_name'],
+                'designation'              => $data['designation'],
+                'mobile_no'             => $data['mobile_no'] ?? null,
+                'office_address'             => $data['office_address'] ?? null,
             ]);
 
             return $tenant;

@@ -15,7 +15,7 @@ class PrintController extends Controller
         'currentAgreement.occupancy.flat.floor.building.plot.area',
         'currentAgreement.occupancy.flat.currentOwners.user',
         'tenantFamilyMembers',
-        'vechicles',
+        'vechicles','currentAgreement.profession',
         'driverAssignments.staff',
         'housemaidAssignments.staff',
     ])->findOrFail($id);

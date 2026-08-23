@@ -66,6 +66,16 @@ return [
     'passport_no' => 'পাসপোর্ট নম্বর',
     'profession' => 'পেশা',
     'photo' => 'ছবি',
+    'marital_status' => 'বৈবাহিক অবস্থা',
+    'religion' => 'ধর্ম',
+    'birth_place' => 'জন্মস্থান',
+
+    // Tenant profession
+    'title_p' => 'স্থায়ী পেশা',
+    'office_name' => 'অফিসের নাম',
+    'designation' => 'পদবী',
+    'mobile_no' => 'মোবাইল নাম্বার',
+    'office_address' => 'অফিসের ঠিকানা',
 
     // Rental Agreement
     'agreement_no' => 'চুক্তি নম্বর',

@@ -8,6 +8,7 @@ use App\Models\HousemaidAssignment;
 use App\Models\Occupancy;
 use App\Models\RentalAgreement;
 use App\Models\TenantFamilyMember;
+use App\Models\TenantProfession;
 use App\Models\Vechicle;
 use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
@@ -307,6 +308,22 @@ class EditTenant extends EditRecord
                 $data['address']
                     = $agreement->emergencyContact->address;
             }
+
+            if ($agreement->profession) {
+                 $data['title_p']
+                    = $agreement->profession->title_p;
+
+                $data['office_name']
+                    = $agreement->profession->office_name;
+
+                $data['designation']
+                    = $agreement->profession->designation;
+
+                $data['mobile_no']
+                    = $agreement->profession->mobile_no;
+                $data['office_address']
+                    = $agreement->profession->office_address;
+            }
         }
 
         return $data;
@@ -321,8 +338,15 @@ class EditTenant extends EditRecord
                 'tenant_name' => $data['tenant_name'],
                 'father_name' => $data['father_name'],
                 'mother_name' => $data['mother_name'],
-                'mobile' => $data['mobile'],
-                'profession' => $data['profession'],
+                'birth_place' => $data['birth_place'],
+                'religion' => $data['religion'],
+                'education' => $data['education'],
+                'marital_status' => $data['marital_status'],
+                'nid_no'        => $data['nid_no'],
+                'passport_no'   => $data['passport_no'],
+                'mobile'        => $data['mobile'],
+                'email' => $data['email'],
+                // 'profession' => $data['profession'],
             ]);
 
             $agreement = $record->currentAgreement;
@@ -347,8 +371,27 @@ class EditTenant extends EditRecord
                     'relation' => $data['relation'],
                     'mobile' => $data['mobile'],
                     'address' => $data['address'],
-                    'status' => $data['status'],
+                    // 'status' => $data['status'],
                 ]);
+
+                if($agreement->profession){
+                    $agreement->profession->update([
+                        'title_p'                => $data['title_p'],
+                        'office_name'            => $data['office_name'],
+                        'designation'              => $data['designation'],
+                        'mobile_no'             => $data['mobile_no'] ?? null,
+                        'office_address'             => $data['office_address'] ?? null,
+                    ]);
+                }else{
+                     TenantProfession::create([
+                        'rental_agreement_id' => $agreement->id,
+                        'title_p'                => $data['title_p'],
+                        'office_name'            => $data['office_name'],
+                        'designation'              => $data['designation'],
+                        'mobile_no'             => $data['mobile_no'] ?? null,
+                        'office_address'             => $data['office_address'] ?? null,
+                    ]);
+                }
             }
         });
 

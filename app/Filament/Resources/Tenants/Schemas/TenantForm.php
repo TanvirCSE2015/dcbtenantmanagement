@@ -7,12 +7,15 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Wizard;
 use Filament\Schemas\Components\Wizard\Step;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,94 +30,132 @@ class TenantForm
                     Step::make('ভাড়াটিয়ার তথ্য')
                     ->icon('heroicon-o-user')
                     ->schema([
-                        Select::make('flat_no')
-                            ->label(__('formlabel.flat_no'))
-                                ->options(function (?Model $record) {
+                        Fieldset::make()
+                        ->schema([
+                            Select::make('flat_no')
+                                ->label(__('formlabel.flat_no'))
+                                    ->options(function (?Model $record) {
 
-                                    $currentFlatId = null;
+                                        $currentFlatId = null;
 
-                                    if ($record) {
+                                        if ($record) {
 
-                                        $agreement = $record->currentAgreement;
+                                            $agreement = $record->currentAgreement;
 
-                                        $currentFlatId = $agreement?->occupancy?->flat_id;
-                                    }
+                                            $currentFlatId = $agreement?->occupancy?->flat_id;
+                                        }
 
-                                    $query = Flat::query()
-                                        ->with(['floor.building.plot'])
+                                        $query = Flat::query()
+                                            ->with(['floor.building.plot'])
 
-                                        ->where(function ($q) use ($currentFlatId) {
+                                            ->where(function ($q) use ($currentFlatId) {
 
-                                            $q->whereDoesntHave('occupancies', function ($query) {
-                                                $query->where('is_current', true);
+                                                $q->whereDoesntHave('occupancies', function ($query) {
+                                                    $query->where('is_current', true);
+                                                });
+
+                                                if ($currentFlatId) {
+                                                    $q->orWhere('id', $currentFlatId);
+                                                }
                                             });
 
-                                            if ($currentFlatId) {
-                                                $q->orWhere('id', $currentFlatId);
-                                            }
-                                        });
+                                        if (! auth()->user()->hasRole('super_admin')) {
 
-                                    if (! auth()->user()->hasRole('super_admin')) {
+                                            $query->whereHas('owners', function ($q) {
+                                                $q->where('user_id', auth()->id())
+                                                ->where('is_current', true);
+                                            });
+                                        }
 
-                                        $query->whereHas('owners', function ($q) {
-                                            $q->where('user_id', auth()->id())
-                                            ->where('is_current', true);
-                                        });
-                                    }
+                                        return $query->get()
+                                            ->mapWithKeys(function ($flat) {
 
-                                    return $query->get()
-                                        ->mapWithKeys(function ($flat) {
+                                                return [
+                                                    $flat->id =>
+                                                        $flat->floor?->building?->plot?->plot_no .
+                                                        ' | ' .
+                                                        $flat->floor?->building?->building_name .
+                                                        ' | তলা-' .
+                                                        $flat->floor?->floor_no .
+                                                        ' | ফ্ল্যাট-' .
+                                                        $flat->flat_no,
+                                                ];
+                                            });
+                                    })
+                                    ->afterStateHydrated(function ($component, $state, $record) {
 
-                                            return [
-                                                $flat->id =>
-                                                    $flat->floor?->building?->plot?->plot_no .
-                                                    ' | ' .
-                                                    $flat->floor?->building?->building_name .
-                                                    ' | তলা-' .
-                                                    $flat->floor?->floor_no .
-                                                    ' | ফ্ল্যাট-' .
-                                                    $flat->flat_no,
-                                            ];
-                                        });
-                                })
-                                ->afterStateHydrated(function ($component, $state, $record) {
+                                        if ($record && blank($state)) {
 
-                                    if ($record && blank($state)) {
-
-                                        $component->state(
-                                            $record->currentAgreement?->occupancy?->flat_id
-                                        );
-                                    }
-                                })
-                            ->required(),
-                        TextInput::make('tenant_name')
-                            ->label(__('formlabel.tenant_name'))
-                            ->required(),
-                        TextInput::make('father_name')
-                            ->label(__('formlabel.father_name'))
-                            ->required(),
-                        TextInput::make('mother_name')
-                        ->label(__('formlabel.mother_name'))
-                            ->required(),
-                        DatePicker::make('date_of_birth')
-                            ->label(__('formlabel.date_of_birth'))
-                            ->required(),
-                        TextInput::make('nid_no')
-                            ->label(__('formlabel.nid_no'))
-                            ->required(),
-                        TextInput::make('passport_no')
-                            ->label(__('formlabel.passport_no'))
-                            ->required(),
-                        TextInput::make('mobile')
-                            ->label(__('formlabel.mobile'))
-                            ->required(),
-                        TextInput::make('profession')
-                            ->label(__('formlabel.profession'))
-                            ->required(),
-                        FileUpload::make('photo')
-                            ->label(__('formlabel.photo'))
-                            ->disk('public')
-                            ->directory('images/tenants')
+                                            $component->state(
+                                                $record->currentAgreement?->occupancy?->flat_id
+                                            );
+                                        }
+                                    })
+                                ->required(),
+                            TextInput::make('tenant_name')
+                                ->label(__('formlabel.tenant_name'))
+                                ->required(),
+                            TextInput::make('father_name')
+                                ->label(__('formlabel.father_name'))
+                                ->required(),
+                            TextInput::make('mother_name')
+                            ->label(__('formlabel.mother_name'))
+                                ->required(),
+                        ])
+                        ->columns(4)
+                        ->columnSpanFull(),
+                        Fieldset::make()
+                        ->schema([
+                            DatePicker::make('date_of_birth')
+                                ->label(__('formlabel.date_of_birth'))
+                                ->required(),
+                            TextInput::make('nid_no')
+                                ->label(__('formlabel.nid_no'))
+                                ->required(),
+                            TextInput::make('passport_no')
+                                ->label(__('formlabel.passport_no'))
+                                ->required(),
+                            Select::make('marital_status') 
+                                ->label(__('formlabel.marital_status'))
+                                ->options([
+                                    'married'=>'বিবাহিত',
+                                    'unmarried'=>'অবিবাহিত'
+                                ]),
+                            Select::make('religion') 
+                                ->label(__('formlabel.religion'))
+                                ->options([
+                                    'ইসলাম'=>'ইসলাম',
+                                    'সনাতন' => 'সনাতন',
+                                    'বৌদ্ধ'=>'বৌদ্ধ',
+                                    'খ্রীস্টান' => 'খ্রীস্টান'
+                                ])
+                                ->default('ইসলাম'),
+                            
+                        ])
+                        ->columns(5)
+                        ->columnSpanFull(),
+                         Fieldset::make()
+                        ->schema([
+                            TextInput::make('birth_place')
+                                 ->label(__('formlabel.birth_place')),
+                            TextInput::make('mobile')
+                                ->label(__('formlabel.mobile'))
+                                ->required(),
+                            TextInput::make('email') 
+                                ->label(__('formlabel.email')),
+                            
+                            TextInput::make('education') 
+                                ->label(__('formlabel.education')),
+                            // TextInput::make('profession')
+                            //     ->label(__('formlabel.profession'))
+                            //     ->required(),
+                            FileUpload::make('photo')
+                                ->label(__('formlabel.photo'))
+                                ->disk('public')
+                                ->directory('images/tenants')
+                         ])
+                         ->columns(5)
+                        ->columnSpanFull(),
                     ])
                     ->columns(4),
                     Step::make('ভাড়াটিয়ার চুক্তিপত্র')
@@ -183,7 +224,42 @@ class TenantForm
 
                         RichEditor::make('address')
                             ->label('ঠিকানা'),
-                    ])
+                    ]),
+
+                Step::make("পেশা ও অন্যান্য তথ্য")
+                    ->icon(Heroicon::AcademicCap)
+                    ->schema([
+                        Fieldset::make('পেশাগত তথ্য')
+                           ->schema([
+                                TextInput::make('title_p')
+                                    ->label(__('formlabel.title_p'))
+                                    ->required(),
+                                TextInput::make('office_name')
+                                    ->label(__('formlabel.office_name'))
+                                    ->required(),
+                                TextInput::make('designation')
+                                    ->label(__('formlabel.designation'))
+                                    ->required(),
+                                TextInput::make('mobile_no')
+                                    ->label(__('formlabel.mobile_no'))
+                                    ->required(),
+                                Textarea::make('office_address')
+                                    ->label(__('formlabel.office_address'))
+                                    ->required(),
+                           ])
+                           ->columns(5),
+                        Fieldset::make('অন্যান্য তথ্য')
+                            ->schema([
+                                Textarea::make('old_rental')
+                                    ->label('পূর্বের বাসস্থানের ঠিকানা'),
+                                Textarea::make('old_flat_owner')
+                                    ->label('পূর্বের বাড়ির মালিকের নাম ও মোবাইল নম্বরনা'),
+                                Textarea::make('current_case')
+                                    ->label('কোন মামলা/অপরাধে পূর্বে গ্রেফতার বা দণ্ডপ্রাপ্ত কিনা'),
+                            ])
+                            ->columns(3)
+
+                    ]),
                     
                 ])
                 ->skippable()

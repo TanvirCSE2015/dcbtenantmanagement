@@ -743,21 +743,21 @@
                 <div class="blank-line">{{$tenant->date_of_birth}}</div>
 
                 <div class="label">বৈবাহিক অবস্থা</div>
-                <div class="blank-line"></div>
+                <div class="blank-line">{{$tenant->marital_status = 'married' ? 'বিবাহিত' : 'অবিবাহিত'}}</div>
             </div>
 
 
             <div class="field-row">
                 <div class="serial">৪।</div>
                 <div class="label">জন্মস্থান</div>
-                <div class="blank-line"></div>
+                <div class="blank-line">{{$tenant->birth_place}}</div>
             </div>
 
 
             <div class="field-row">
                 <div class="serial">৫।</div>
                 <div class="label">পৈতৃক ও বর্তমান ঠিকানা</div>
-                <div class="blank-line"></div>
+                <div class="blank-line">{{$tenant->permanent_current_address}}</div>
             </div>
 
 
@@ -765,10 +765,10 @@
                 <div class="serial">৬।</div>
 
                 <div class="label">ধর্ম</div>
-                <div class="blank-line"></div>
+                <div class="blank-line">{{$tenant->religion}}</div>
 
                 <div class="label">শিক্ষাগত যোগ্যতা</div>
-                <div class="blank-line"></div>
+                <div class="blank-line">{{$tenant->education}}</div>
             </div>
 
 
@@ -779,7 +779,7 @@
                 <div class="blank-line">{{$tenant->mobile}}</div>
 
                 <div class="label">ই-মেইল</div>
-                <div class="blank-line"></div>
+                <div class="blank-line">{{$tenant->email}}</div>
             </div>
 
 
@@ -800,7 +800,7 @@
             <div class="field-row">
                 <div class="serial">১০।</div>
                 <div class="label">স্থায়ী পেশা</div>
-                <div class="blank-line"></div>
+                <div class="blank-line">{{$tenant->currentAgreement->profession->title_p}}</div>
             </div>
 
 
@@ -808,10 +808,10 @@
                 <div></div>
 
                 <div class="label">(ক) অফিসের নাম</div>
-                <div class="blank-line"></div>
+                <div class="blank-line">{{$tenant->currentAgreement->profession->office_name}}</div>
 
                 <div class="label">পদবী</div>
-                <div class="blank-line"></div>
+                <div class="blank-line">{{$tenant->currentAgreement->profession->designation}}</div>
             </div>
 
 
@@ -819,10 +819,10 @@
                 <div></div>
 
                 <div class="label">(খ) অফিসের ঠিকানা</div>
-                <div class="blank-line"></div>
+                <div class="blank-line">{{$tenant->currentAgreement->profession->office_address}}</div>
 
                 <div class="label">মোবাইল নম্বর</div>
-                <div class="blank-line"></div>
+                <div class="blank-line">{{$tenant->currentAgreement->profession->mobile_no}}</div>
             </div>
 
         </div>
@@ -915,7 +915,7 @@
 
                     <div class="small-field">
                         <div class="label">মালিকের নাম</div>
-                        <div class="blank-line"></div>
+                        <div class="blank-line">{{$tenant->currentAgreement->occupancy->flat->currentOwners->user->name}}</div>
                     </div>
 
                     <div class="small-field">
