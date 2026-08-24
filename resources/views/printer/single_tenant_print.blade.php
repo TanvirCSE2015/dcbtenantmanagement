@@ -105,9 +105,9 @@
             display: grid;
 
             grid-template-columns:
-                35mm
+                50mm
                 minmax(0, 1fr)
-                45mm;
+                60mm;
 
             gap: 4mm;
 
@@ -260,7 +260,7 @@
 
             gap: 1.5mm;
 
-            min-height: 7mm;
+            min-height: 5mm;
 
             align-items: end;
         }
@@ -295,7 +295,7 @@
             width: 100%;
             min-width: 0;
 
-            min-height: 5mm;
+            min-height: 2mm;
 
             border-bottom: 1px dotted #000;
 
@@ -335,7 +335,7 @@
 
             padding: 1mm;
 
-            height: 7mm;
+            height: 5.5mm;
 
             text-align: center;
             vertical-align: middle;
@@ -403,7 +403,7 @@
 
             min-height: 7mm;
 
-            align-items: end;
+            align-items: center;
         }
 
 
@@ -658,7 +658,7 @@
                 </div>
 
 
-                <div class="header-details">
+                {{-- <div class="header-details">
 
                     <div>
                         বিভাগঃ
@@ -670,7 +670,7 @@
                         <span class="blank-line"></span>
                     </div>
 
-                </div>
+                </div> --}}
 
             </div>
 
@@ -685,22 +685,22 @@
 
                 <div class="form-info-row">
                     <span>বাড়ি/হোল্ডিং</span>
-                    <span class="blank-line"></span>
+                    <span class="blank-line">{{$tenant->currentAgreement->occupancy->flat->floor->building->plot->plot_no}}</span>
                 </div>
 
                 <div class="form-info-row">
                     <span>রাস্তা</span>
-                    <span class="blank-line"></span>
+                    <span class="blank-line">{{$tenant->currentAgreement->occupancy->flat->floor->building->plot->road_no}}</span>
                 </div>
 
                 <div class="form-info-row">
                     <span>এলাকা</span>
-                    <span class="blank-line"></span>
+                    <span class="blank-line">{{$tenant->currentAgreement->occupancy->flat->floor->building->plot->area->area_name}}</span>
                 </div>
 
                 <div class="form-info-row">
                     <span>পোস্ট কোড</span>
-                    <span class="blank-line"></span>
+                    <span class="blank-line">{{$tenant->currentAgreement->occupancy->flat->floor->building->plot->post_code}}</span>
                 </div>
 
             </div>
@@ -908,19 +908,26 @@
                 ১২। বাড়ির মালিকের তথ্য
             </div>
 
-
+            @php
+            $i=0;
+            $owner = $tenant->currentAgreement
+                ->occupancy
+                ->flat
+                ->currentOwners
+                ->get($i);
+            @endphp
             <div class="double-column">
 
                 <div>
 
                     <div class="small-field">
                         <div class="label">মালিকের নাম</div>
-                        <div class="blank-line">{{$tenant->currentAgreement->occupancy->flat->currentOwners->user->name}}</div>
+                        <div class="blank-line">{{$owner?->user?->name}}</div>
                     </div>
 
                     <div class="small-field">
                         <div class="label">মোবাইল নম্বর</div>
-                        <div class="blank-line"></div>
+                        <div class="blank-line"> {{ $owner?->user?->mobile }}</div>
                     </div>
 
                 </div>
@@ -930,7 +937,7 @@
 
                     <div class="small-field">
                         <div class="label">জাতীয় পরিচয়পত্র নং</div>
-                        <div class="blank-line"></div>
+                        <div class="blank-line"> {{ $owner?->user?->nid }}</div>
                     </div>
 
                     <div class="small-field">
@@ -955,7 +962,7 @@
             </div>
 
 
-            <div class="double-column">
+            {{-- <div class="double-column">
 
                 <div>
 
@@ -986,7 +993,50 @@
 
                 </div>
 
-            </div>
+            </div> --}}
+
+
+            <table class="family-table">
+
+                <thead>
+                    <tr>
+                        <th style="width: 8%;">ক্রমিক</th>
+                        <th style="width: 28%;">নাম</th>
+                        <th style="width: 10%;">মোবাইল নম্বর</th>
+                        <th style="width: 18%;">জাতীয় পরিচয়পত্র নং</th>
+                        <th style="width: 18%;">স্থায়ী ঠিকানা</th>
+                    </tr>
+                </thead>
+
+
+                <tbody>
+                @foreach ($tenant->driverAssignments as $key => $item)
+                    
+                
+                    <tr>
+                        <td>{{$key+1}}</td>
+                        <td>{{$item->staff->full_name}}</td>
+                        <td>{{$item->staff->mobile}}</td>
+                        <td>{{$item->staff->nid_no}}</td>
+                        <td></td>
+                    </tr>
+                @endforeach
+                    {{-- <tr>
+                        <td>২</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr> --}}
+
+                    
+
+                </tbody>
+
+            </table>
+
+        
 
         </div>
 
@@ -1002,7 +1052,7 @@
                 <div class="label">
                     বর্তমান বাসায় বসবাসের তারিখ
                 </div>
-                <div class="blank-line"></div>
+                <div class="blank-line">{{$tenant->currentAgreement->occupancy->start_date}}  থেকে  {{$tenant->currentAgreement->occupancy->end_date}}</div>
             </div>
 
 
@@ -1011,7 +1061,7 @@
                 <div class="label">
                     পূর্বের বাসস্থানের ঠিকানা
                 </div>
-                <div class="blank-line"></div>
+                <div class="blank-line">{{$tenant->old_rental}}</div>
             </div>
 
 
@@ -1020,7 +1070,7 @@
                 <div class="label">
                     পূর্বের বাড়ির মালিকের নাম ও মোবাইল নম্বর
                 </div>
-                <div class="blank-line"></div>
+                <div class="blank-line">{{$tenant->old_flat_owner}}</div>
             </div>
 
 
@@ -1029,7 +1079,7 @@
                 <div class="label">
                     কোন মামলা/অপরাধে পূর্বে গ্রেফতার বা দণ্ডপ্রাপ্ত হয়েছেন কিনা
                 </div>
-                <div class="blank-line"></div>
+                <div class="blank-line">{{$tenant->current_case}}</div>
             </div>
 
 

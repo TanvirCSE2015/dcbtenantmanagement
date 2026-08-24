@@ -16,6 +16,7 @@ return [
     'plot_info' => 'প্লটের তথ্য',
     'plot_no' => 'প্লট নম্বর',
     'road_no' => 'রোড নম্বর',
+    'post_code' => 'পোস্ট কোড',
     'block' => 'ব্লক',
     'area' => 'এলাকা',
     'land_size' => 'জমির পরিমাণ',
@@ -65,7 +66,6 @@ return [
     'date_of_birth' => 'জন্ম তারিখ',
     'passport_no' => 'পাসপোর্ট নম্বর',
     'profession' => 'পেশা',
-    'photo' => 'ছবি',
     'marital_status' => 'বৈবাহিক অবস্থা',
     'religion' => 'ধর্ম',
     'birth_place' => 'জন্মস্থান',
@@ -93,8 +93,6 @@ return [
     'housemaid_name' => 'গৃহকর্মীর নাম',
     'driver_mobile' => 'ড্রাইভারের মোবাইল',
     'housemaid_mobile' => 'গৃহকর্মীর মোবাইল',
-    'start_date' => 'শুরুর তারিখ',
-    'end_date' => 'শেষের তারিখ',
     'is_active' => 'সক্রিয়',
 
     //Vechicle

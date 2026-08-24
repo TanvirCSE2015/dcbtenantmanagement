@@ -16,7 +16,7 @@ class PlotForm
             ->components([
                 Section::make(__('formlabel.plot_info'))
                     ->schema([
-                        Grid::make(5)
+                        Grid::make(6)
                             ->schema([
                                 TextInput::make('plot_no')
                                     ->label(__('formlabel.plot_no'))
@@ -26,6 +26,9 @@ class PlotForm
                                     ->default(null),
                                 TextInput::make('block')
                                     ->label(__('formlabel.block'))
+                                    ->default(null),
+                                TextInput::make('post_code')
+                                    ->label(__('formlabel.post_code'))
                                     ->default(null),
                                 TextInput::make('land_size')
                                     ->label(__('formlabel.land_size'))

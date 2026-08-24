@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('plot_no')->unique();
             $table->string('road_no')->nullable();
             $table->string('block')->nullable();
+            $table->string('post_code');
             $table->string('area')->nullable();
             $table->decimal('land_size', 10, 2)->nullable();
             $table->timestamps();
