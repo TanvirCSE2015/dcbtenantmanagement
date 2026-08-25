@@ -70,4 +70,9 @@ class RentalAgreement extends Model
     {
         return $this->hasOne(TenantProfession::class);
     }
+
+    public function arms()
+    {
+        return $this->hasMany(TenantArm::class);
+    }
 }

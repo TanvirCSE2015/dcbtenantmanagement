@@ -64,4 +64,16 @@ class Tenant extends Model
             'id'
         );
     }
+
+    public function arms()
+    {
+        return $this->hasManyThrough(
+            TenantArm::class,
+            RentalAgreement::class,
+            'tenant_id',
+            'rental_agreement_id',
+            'id',
+            'id'
+        );
+    }
 }

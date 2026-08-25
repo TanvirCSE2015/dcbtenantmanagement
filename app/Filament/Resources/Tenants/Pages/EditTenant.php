@@ -7,6 +7,7 @@ use App\Models\DriverAssignment;
 use App\Models\HousemaidAssignment;
 use App\Models\Occupancy;
 use App\Models\RentalAgreement;
+use App\Models\TenantArm;
 use App\Models\TenantFamilyMember;
 use App\Models\TenantProfession;
 use App\Models\Vechicle;
@@ -268,6 +269,30 @@ class EditTenant extends EditRecord
                         if (! empty($members)) {
                             TenantFamilyMember::insert($members);
                         }
+
+                        $arms=$oldAgreement->arms
+                            ->where('is_active', true)
+                            ->get()
+                            ->map(function ($arm) use ($newAgreement) {
+
+                                return [
+                                    'rental_agreement_id' => $newAgreement->id,
+                                    'arms_category'                => $arm->arms_category,
+                                    'arms_number'            => $arm->arms_number,
+                                    'validity_date'              => $arm->validity_date,
+                                    'ammunition_details'           => $arm->ammunition_details,
+                                    'issued_from'              => $arm->issued_from,
+                                    'is_active'       => $arm->is_active,
+                                    'created_at'          => now(),
+                                    'updated_at'          => now(),
+                                ];
+                            })
+                            ->toArray();
+
+                        if (! empty($arms)) {
+                            TenantArm::insert($arms);
+                        }
+
                     });
 
                     Notification::make()

@@ -103,4 +103,12 @@ return [
     'registration_no'=>'গাড়ির রেজিঃ নম্বর',
     'color'=>'কালার',
 
+    // arms
+
+    'arms_category'=>'অস্ত্রের ধরণ',
+    'arms_number'=>'অস্ত্রের নাম্বার',
+    'validity_date'=>'মেয়াদোত্তীর্ণের তারিখ',
+    'issued_from'=>'ইস্যুর স্থান',
+    'ammunition_details' => 'বুলেটের বিবরণ',
+
 ];

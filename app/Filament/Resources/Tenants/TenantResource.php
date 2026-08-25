@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Tenants;
 use App\Filament\Resources\Tenants\Pages\CreateTenant;
 use App\Filament\Resources\Tenants\Pages\EditTenant;
 use App\Filament\Resources\Tenants\Pages\ListTenants;
+use App\Filament\Resources\Tenants\Pages\TenantTable;
 use App\Filament\Resources\Tenants\Schemas\TenantForm;
 use App\Filament\Resources\Tenants\Tables\TenantsTable;
 use App\Models\Tenant;
@@ -50,13 +51,14 @@ class TenantResource extends Resource
             RelationManagers\VechiclesRelationManager::class,
             RelationManagers\DriverAssignmentsRelationManager::class,
             RelationManagers\HousemaidAssignmentsRelationManager::class,
+            RelationManagers\ArmsRelationManager::class,
         ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => ListTenants::route('/'),
+            'index' => TenantTable::route('/'),
             'create' => CreateTenant::route('/create'),
             'edit' => EditTenant::route('/{record}/edit'),
         ];
