@@ -33,16 +33,14 @@ class UsersTable
                     ->getStateUsing(function ($record) {
                         return $record->currentPlotOwners()->count();
                     })
-                    ->badge()
-                    ->sortable(),
+                    ->badge(),
 
                 TextColumn::make('current_flat_count')
                     ->label('বর্তমান ফ্ল্যাট')
                     ->getStateUsing(function ($record) {
                         return $record->currentFlatOwners()->count();
                     })
-                    ->badge()
-                    ->sortable(),
+                    ->badge(),
 
                 IconColumn::make('is_active')
                     ->label('সক্রিয়')

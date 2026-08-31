@@ -197,8 +197,8 @@ class OwnersRelationManager extends RelationManager
                             ->create([
                                 'user_id'           => $data['user_id'],
                                 'ownership_percent' => $data['ownership_percent'],
-                                'start_date'        => $data['start_date'],
-                                'end_date'          => $data['end_date'] ?? null,
+                                'ownership_start_date'        => $data['ownership_start_date'],
+                                'ownership_end_date'          => $data['ownership_end_date'] ?? null,
                                 'is_current'        => $data['is_current'] ?? true,
                                 'created_by'        => auth()->id(),
                             ]);

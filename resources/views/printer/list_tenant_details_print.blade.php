@@ -624,6 +624,7 @@
     <!-- ===============================
          A4 PAGE
     ================================ -->
+    @foreach ($records as $tenant)
     <div class="page">
 
 
@@ -1117,15 +1118,16 @@
 
 
     </div>
-<script>
-    window.onload = function () {
-        window.print();
-        window.onafterprint = function () {
-            window.close();
-        };
+    @endforeach
+    <script>
+        window.onload = function () {
+            window.print();
+            window.onafterprint = function () {
+                window.close();
+            };
 
-    }
-</script>
+        }
+    </script>
 </body>
 
 </html>

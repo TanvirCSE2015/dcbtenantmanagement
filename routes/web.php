@@ -10,3 +10,6 @@ Route::redirect('/', '/admin/login');
 
 Route::get('/print-single-tenant',[PrintController::class,'PrintSingleTenant'])
     ->name('single-tenant.print')->middleware('auth');
+
+Route::get('/print-list-tenant',[PrintController::class,'PrintTenantList'])
+    ->name('list-tenant.print')->middleware('auth');

@@ -19,6 +19,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Illuminate\Database\Eloquent\Builder;
+use Override;
 
 class TenantTable extends Page implements HasTable,HasForms
 {
@@ -34,6 +35,7 @@ class TenantTable extends Page implements HasTable,HasForms
 
      public ?int $area_id = null;
      public ?int $plot_id = null;
+     public ?string $type=null;
 
 
      public function getFormSchema(): array
@@ -80,6 +82,14 @@ class TenantTable extends Page implements HasTable,HasForms
 
                             $this->resetTable();
                         }),
+                    
+                    Select::make('type')
+                        ->label('রিপোর্টের ধরণ')
+                        ->options([
+                            'list' => 'তালিকা',
+                            'details' => 'বিস্তারিত',
+                        ])
+                        ->live(),
                     ])
 
         ];
@@ -183,6 +193,7 @@ class TenantTable extends Page implements HasTable,HasForms
                 ->icon(Heroicon::Plus)
                 ->tooltip('নতুন ভাড়াটিয়া তৈরি করুন'),
                 // ->url(fn ($record) => route('filament.resources.tasks.edit', $record)),
+            
         ];
     }
 
@@ -200,6 +211,23 @@ class TenantTable extends Page implements HasTable,HasForms
                 ->color('success')
                 ->url(fn ($record) => route('single-tenant.print', [
                         'tenant' => $record->id,
+                    ]))
+                ->openUrlInNewTab(),
+        ];
+    }
+
+    protected function getTableHeaderActions(): array
+    {
+        return[
+            Action::make('list_print')
+                ->label('প্রিন্ট রিপোর্ট')
+                ->icon(Heroicon::Printer)
+                // ->tooltip('রিপোর্ট প্রিন্ট করুন')
+                ->color('success')
+                ->url(fn ($record) => route('list-tenant.print', [
+                        'area' => $this->area_id,
+                        'plot' => $this->plot_id,
+                        'type' => $this->type,
                     ]))
                 ->openUrlInNewTab(),
         ];

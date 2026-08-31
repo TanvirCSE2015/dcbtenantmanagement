@@ -327,7 +327,7 @@ class EditTenant extends EditRecord
                 $data['relation']
                     = $agreement->emergencyContact->relation;
 
-                $data['mobile']
+                $data['e_mobile']
                     = $agreement->emergencyContact->mobile;
 
                 $data['address']
@@ -394,7 +394,7 @@ class EditTenant extends EditRecord
                 $agreement->emergencyContact()?->update([
                     'name' => $data['name'],
                     'relation' => $data['relation'],
-                    'mobile' => $data['mobile'],
+                    'mobile' => $data['e_mobile'],
                     'address' => $data['address'],
                     // 'status' => $data['status'],
                 ]);

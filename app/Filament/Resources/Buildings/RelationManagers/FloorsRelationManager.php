@@ -53,6 +53,8 @@ class FloorsRelationManager extends RelationManager
 
                     Repeater::make('ফ্ল্যাট')
                         ->relationship('flats')
+                        ->label('ফ্ল্যাটসমূহ')
+                        ->addActionLabel('নতুন ফ্ল্যাট যোগ করুন')
                         ->schema([
                             TextInput::make('flat_no')
                                 ->label(__('formlabel.flat_no'))

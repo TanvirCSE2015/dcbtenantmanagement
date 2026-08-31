@@ -145,7 +145,8 @@ class TenantForm
                                 ->label(__('formlabel.email')),
                             
                             TextInput::make('education') 
-                                ->label(__('formlabel.education')),
+                                ->label(__('formlabel.education'))
+                                ->required(),
                             // TextInput::make('profession')
                             //     ->label(__('formlabel.profession'))
                             //     ->required(),
@@ -217,7 +218,7 @@ class TenantForm
                                     ->label('সম্পর্ক')
                                     ->required(),
 
-                                TextInput::make('mobile')
+                                TextInput::make('e_mobile')
                                     ->label('মোবাইল')
                                     ->required(),
                             ]),
