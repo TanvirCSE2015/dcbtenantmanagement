@@ -17,6 +17,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
@@ -111,24 +112,34 @@ class OwnershipTransfersRelationManager extends RelationManager
 
             ->recordActions([
 
-                Action::make('view')
-                    ->label('বিস্তারিত')
-                    ->icon('heroicon-o-eye')
-                    ->modalHeading(
-                        fn ($record) =>
-                            'মালিকানা হস্তান্তরের বিস্তারিত'
-                    )
-                    ->modalContent(
-                        fn ($record) =>
-                            view(
-                                'filament.ownership-transfer-details',
-                                [
-                                    'transfer' => $record,
-                                ]
-                            )
-                    )
-                    ->modalSubmitAction(false),
+                // Action::make('view')
+                //     ->label('বিস্তারিত')
+                //     ->icon('heroicon-o-eye')
+                //     ->modalHeading(
+                //         fn ($record) =>
+                //             'মালিকানা হস্তান্তরের বিস্তারিত'
+                //     )
+                //     ->modalContent(
+                //         fn ($record) =>
+                //             view(
+                //                 'filament.ownership-transfer-details',
+                //                 [
+                //                     'transfer' => $record,
+                //                 ]
+                //             )
+                //     )
+                //     ->modalSubmitAction(false),
 
+            ])
+
+            ->headerActions([
+                Action::make('ownwerSummery')
+                    ->label('রিপোর্ট প্রিন্ট')
+                    ->icon(Heroicon::Printer)
+                    ->url(fn()=> route('owner-summery.print',[
+                        'flat' => $this->getOwnerRecord()->id,
+                    ]))
+                    ->openUrlInNewTab()
             ])
 
             ->toolbarActions([

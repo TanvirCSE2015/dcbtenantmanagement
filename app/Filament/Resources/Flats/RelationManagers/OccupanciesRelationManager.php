@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Flats\RelationManagers;
 
 use App\Models\Occupancy;
+use Filament\Actions\Action;
 use Filament\Actions\AssociateAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\CreateAction;
@@ -19,6 +20,7 @@ use Filament\Infolists\Components\IconEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -123,6 +125,69 @@ class OccupanciesRelationManager extends RelationManager
             ->headerActions([
                 // CreateAction::make(),
                 // AssociateAction::make(),
+                 Action::make('printSummary')
+                    ->label('সামারি প্রিন্ট')
+                    ->icon(Heroicon::Printer)
+                    ->color('success')
+
+                    ->modalHeading('সামারি প্রিন্ট')
+
+                    ->modalSubmitAction(false)
+
+                    ->modalCancelAction(false)
+
+                    ->modalContent(function () {
+
+                        $flat = $this->getOwnerRecord();
+
+                        $url = route('list-tenant.print', [
+                            'area' => $flat->floor->building->plot->area_id,
+                            'plot' => $flat->floor->building->plot_id,
+                            'flat' => $flat->id,
+                        ]);
+
+                        return view(
+                            'filament.actions.print_sumary',
+                            compact('url')
+                        );
+                    }),
+                // Action::make('printSummary')
+                //     ->label('সামারি প্রিন্ট')
+                //     ->icon(Heroicon::Printer)
+                //     ->color('success')
+
+                //     ->requiresConfirmation()
+
+                //     ->schema([
+
+                //         Select::make('type')
+                //             ->label('প্রিন্টের ধরন')
+                //             ->options([
+                //                 'list'   => 'তালিকা',
+                //                 'detail' => 'বিস্তারিত',
+                //             ])
+                //             ->default('list')
+                //             ->required(),
+
+                //     ])
+
+                //     ->modalHeading('প্রিন্টের ধরন নির্বাচন করুন')
+                //     ->modalSubmitActionLabel('প্রিন্ট করুন')
+                //     ->modalCancelActionLabel('বাতিল')
+
+                //     ->action(function (array $data) {
+
+                //         $flat = $this->getOwnerRecord();
+                //         $url = route('list-tenant.print', [
+                //             'area' => $flat->floor->building->plot->area_id,
+                //             'plot' => $flat->floor->building->plot_id,
+                //             'flat' => $flat->id,
+                //             'type' => $data['type'],
+                //         ]);
+
+                //         return redirect()->away($url);
+                       
+                //     }),
             ])
             ->recordActions([
                 // ViewAction::make(),

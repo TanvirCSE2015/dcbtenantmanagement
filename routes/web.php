@@ -13,3 +13,6 @@ Route::get('/print-single-tenant',[PrintController::class,'PrintSingleTenant'])
 
 Route::get('/print-list-tenant',[PrintController::class,'PrintTenantList'])
     ->name('list-tenant.print')->middleware('auth');
+
+Route::get('/print-owner-summery',[PrintController::class,'PrintOwnerSummery'])
+    ->name('owner-summery.print')->middleware('auth');
