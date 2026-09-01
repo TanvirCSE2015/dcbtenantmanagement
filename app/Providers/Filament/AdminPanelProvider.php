@@ -28,6 +28,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ->brandName('ভাড়াটিয়াদের তথ্যাবলী')
             ->login()
             ->globalSearch(false)
@@ -60,6 +61,8 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->plugins([
                 FilamentShieldPlugin::make(),
-            ]);
+            ])
+            ->viteTheme('resources/css/filament/admin/theme.css');
+
     }
 }

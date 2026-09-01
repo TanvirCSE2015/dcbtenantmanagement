@@ -86,59 +86,80 @@ class PropertyStatsOverview extends StatsOverviewWidget
         return [
 
             Stat::make(
-                'মোট এলাকা',
-                $this->en2bn(number_format($totalAreas))
-            )
+                    'মোট এলাকা',
+                    $this->en2bn(number_format($totalAreas))
+                )
                 ->description('ক্যান্টনমেন্ট বোর্ড আওতাধীন এলাকা')
                 ->descriptionIcon('heroicon-m-map-pin')
-                ->color('gray'),
+                ->color('white')
+                ->extraAttributes([
+                    'class' => 'property-stat stat-area',
+                ]),
 
+
+            // 2. মোট প্লট
             Stat::make(
                     'মোট প্লট',
                     $this->en2bn(number_format($totalPlots))
                 )
                 ->description('সকল নিবন্ধিত প্লট')
                 ->descriptionIcon('heroicon-m-map')
-                ->color('primary')
+                ->color('white')
                 ->extraAttributes([
-                    'class' => 'stat-3d stat-3d-blue',
+                    'class' => 'property-stat stat-plot',
                 ]),
 
 
+            // 3. মোট ফ্ল্যাট
             Stat::make(
-                'মোট ফ্ল্যাট',
-                $this->en2bn(number_format($totalFlats))
-            )
+                    'মোট ফ্ল্যাট',
+                    $this->en2bn(number_format($totalFlats))
+                )
                 ->description('সকল নিবন্ধিত ফ্ল্যাট')
                 ->descriptionIcon('heroicon-m-building-office-2')
-                ->color('info'),
+                ->color('white')
+                ->extraAttributes([
+                    'class' => 'property-stat stat-flat',
+                ]),
 
 
+            // 4. বর্তমান ভাড়াটিয়া
             Stat::make(
-                'বর্তমান ভাড়াটিয়া',
-                $this->en2bn(number_format($currentTenants))
-            )
+                    'বর্তমান ভাড়াটিয়া',
+                    $this->en2bn(number_format($currentTenants))
+                )
                 ->description('বর্তমানে ভাড়ায় থাকা ফ্ল্যাট')
                 ->descriptionIcon('heroicon-m-user-group')
-                ->color('warning'),
+                ->color('white')
+                ->extraAttributes([
+                    'class' => 'property-stat stat-tenant',
+                ]),
 
 
+            // 5. বর্তমান নিজ বসতি
             Stat::make(
-                'বর্তমান নিজ বসতি',
-                $this->en2bn(number_format($currentOwnerOccupancy))
-            )
+                    'বর্তমান নিজ বসতি',
+                    $this->en2bn(number_format($currentOwnerOccupancy))
+                )
                 ->description('মালিক নিজে বসবাস করছেন')
                 ->descriptionIcon('heroicon-m-home')
-                ->color('success'),
+                ->color('white')
+                ->extraAttributes([
+                    'class' => 'property-stat stat-owner',
+                ]),
 
 
+            // 6. খালি ফ্ল্যাট
             Stat::make(
-                'খালি ফ্ল্যাট',
-                $this->en2bn(number_format($vacantFlats))
-            )
+                    'খালি ফ্ল্যাট',
+                    $this->en2bn(number_format($vacantFlats))
+                )
                 ->description('বর্তমানে কোনো বসবাসকারি নেই')
                 ->descriptionIcon('heroicon-m-home-modern')
-                ->color('danger'),
+                ->color('white')
+                ->extraAttributes([
+                    'class' => 'property-stat stat-vacant',
+                ]),
 
         ];
     }

@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Flats;
 
 use App\Filament\Resources\Flats\Pages\CreateFlat;
+use App\Filament\Resources\Flats\Pages\CustomFlatIndex;
 use App\Filament\Resources\Flats\Pages\EditFlat;
 use App\Filament\Resources\Flats\Pages\ListFlats;
 use App\Filament\Resources\Flats\RelationManagers\OccupanciesRelationManager;
@@ -59,7 +60,7 @@ class FlatResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ListFlats::route('/'),
+            'index' => CustomFlatIndex::route('/'),
             'create' => CreateFlat::route('/create'),
             'edit' => EditFlat::route('/{record}/edit'),
         ];

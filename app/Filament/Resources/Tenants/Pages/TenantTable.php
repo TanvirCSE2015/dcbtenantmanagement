@@ -38,7 +38,7 @@ class TenantTable extends Page implements HasTable,HasForms
      public ?string $type=null;
 
 
-     public function getFormSchema(): array
+    public function getFormSchema(): array
     {
         return [
             Grid::make(4)

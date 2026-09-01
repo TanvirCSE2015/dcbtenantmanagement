@@ -1,20 +1,106 @@
 <?php
 
-namespace App\Filament\Resources\Flats\Tables;
+namespace App\Filament\Resources\Flats\Pages;
 
-use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
+use App\Filament\Resources\Flats\FlatResource;
+use App\Models\Area;
+use App\Models\Flat;
+use App\Models\Plot;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Resources\Pages\Page;
+use Filament\Schemas\Components\Grid;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
-class FlatsTable
+class CustomFlatIndex extends Page implements HasTable,HasForms
 {
-    public static function configure(Table $table): Table
+    use InteractsWithTable,InteractsWithForms;
+    protected static string $resource = FlatResource::class;
+
+    protected string $view = 'filament.resources.flats.pages.custom-flat-index';
+
+    protected static ?string $title = 'ফ্ল্যাট তালিকা';
+
+    public ?int $area_id = null;
+    public ?int $plot_id = null;
+
+
+    public function getFormSchema(): array
     {
-        return $table
-            ->columns([
-                TextColumn::make('floor.building.plot.plot_no')
+        return [
+            Grid::make(4)
+                ->schema([
+                    Select::make('area_id')
+                        ->label('এরিয়া')
+                        ->options(
+                            Area::query()
+                                ->orderBy('area_name')
+                                ->pluck('area_name', 'id')
+                        )
+                        ->searchable()
+                        ->preload()
+                        ->live()
+                        ->afterStateUpdated(function () {
+
+                            $this->plot_id = null;
+
+                            $this->resetTable();
+                        }),
+
+
+                    Select::make('plot_id')
+                        ->label('প্লট')
+                        ->options(function () {
+
+                            if (! $this->area_id) {
+                                return [];
+                            }
+
+                            return Plot::query()
+                                ->where('area_id', $this->area_id)
+                                ->orderBy('plot_no')
+                                ->pluck('plot_no', 'id');
+                        })
+                        ->searchable()
+                        ->preload()
+                        ->live()
+                        ->disabled(fn () => ! $this->area_id)
+                        ->afterStateUpdated(function () {
+
+                            $this->resetTable();
+                        }),
+                    ])
+
+        ];
+        
+    }
+
+
+    protected function getTableQuery(): Builder
+    {
+        return Flat::query() 
+        ->with([ 'floor.building.plot.area', 'floor.building.plot.owners.user', 'owners.user', ])
+        ->when($this->area_id, function ($query) {
+                $query->whereHas('floor.building.plot', function ($query) {
+                    $query->where('area_id', $this->area_id);
+                });
+            })
+            ->when($this->plot_id, function ($query) {
+                $query->whereHas('floor.building.plot', function ($query) {
+                    $query->where('id', $this->plot_id);
+                });
+            });
+    }
+
+    protected function getTableColumns(): array
+    {
+        return[
+            TextColumn::make('floor.building.plot.plot_no')
                     ->label(__('formlabel.plot_no'))
                     ->searchable(),
                 TextColumn::make('floor.building.plot.area.area_name')
@@ -85,19 +171,6 @@ class FlatsTable
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ])
-            ->filters([
-                //
-            ])
-            ->recordActions([
-                EditAction::make()
-                    ->label('')
-                    ->tooltip('সম্পাদনা করুন'),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
-            ]);
+        ];
     }
 }
