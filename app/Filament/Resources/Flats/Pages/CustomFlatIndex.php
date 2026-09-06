@@ -6,6 +6,7 @@ use App\Filament\Resources\Flats\FlatResource;
 use App\Models\Area;
 use App\Models\Flat;
 use App\Models\Plot;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -173,4 +174,16 @@ class CustomFlatIndex extends Page implements HasTable,HasForms
                     ->toggleable(isToggledHiddenByDefault: true),
         ];
     }
+    
+
+    protected function getTableActions(): array
+    {
+        return [
+            EditAction::make()
+                ->label('')
+                ->icon('heroicon-o-pencil-square')
+                ->tooltip('সম্পাদনা করুন')
+        ];
+    }
+    
 }

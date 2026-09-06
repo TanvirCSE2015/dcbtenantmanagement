@@ -4,6 +4,13 @@
     <title>বসবাকারিদের তালিকা</title>
 
     <style>
+        @font-face {
+            font-family: 'NikoshBAN';
+            src: url('/fonts/NikoshBAN.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
         @media print {
             @page {
                 size: A4 portrait;
@@ -12,8 +19,8 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
-            font-size: 10px;
+            font-family: 'NikoshBAN', sans-serif;
+            font-size: 15px;
         }
 
         table {
@@ -48,12 +55,12 @@
 
         .title h2 {
             margin: 0;
-            font-size: 18px;
+            font-size: 22px;
         }
 
         .title p {
             margin: 2px 0;
-            font-size: 12px;
+            font-size: 18px;
         }
         .text-left {
             text-align: left;
@@ -65,7 +72,7 @@
             top: 0;
             border: 1px solid #000;
             padding: 3px 5px;
-            font-size: 11px;
+            font-size: 18px;
             text-align: left;
             min-width: 100px;
         }
@@ -108,7 +115,7 @@
     <div class="summary-box">
         <table>
             <tr>
-                <td><b>সর্বমোট প্লট:  </b></td>
+                <td>সর্বমোট প্লট:  </b></td>
                 <td>{{ en2bn($totalPlots) }} টি</td>
             </tr>
             <tr>
@@ -134,7 +141,7 @@
 
 {{-- <h3>Monthly Attendance Report</h3> --}}
 
-<table style="margin-top: 10px;">
+<table style="margin-top: 22px;">
     <thead>
         <tr>
             <th>#.</th>
@@ -182,9 +189,9 @@
 <script>
     window.onload = function () {
         window.print();
-        window.onafterprint = function () {
-            window.close();
-        };
+        // window.onafterprint = function () {
+        //     window.close();
+        // };
 
     }
 </script>

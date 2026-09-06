@@ -8,598 +8,641 @@
     <title>ভাড়াটিয়া নিবন্ধন ফরম</title>
 
     <style>
-        /* =========================================
-           বাংলা Font
-        ========================================= */
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap');
-
-
-        /* =========================================
-           RESET
-        ========================================= */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-
-        /* =========================================
-           A4 PRINT SETUP
-        ========================================= */
-        @page {
-            size: A4 portrait;
-            margin: 0;
-        }
+       /* =========================================
+   NikoshBAN Font
+========================================= */
 
+@font-face {
+    font-family: 'NikoshBAN';
+    src: url('/fonts/NikoshBAN.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
 
-        html,
-        body {
-            width: 100%;
-            margin: 0;
-            padding: 0;
-        }
 
+/* =========================================
+   RESET
+========================================= */
 
-        body {
-            background: #e5e5e5;
-            font-family: "Noto Sans Bengali", Arial, sans-serif;
-            font-size: 11px;
-            line-height: 1.25;
-            color: #000;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 
-        /* =========================================
-           PRINT BUTTON
-        ========================================= */
-        .print-area {
-            text-align: center;
-            padding: 15px;
-        }
+/* =========================================
+   A4 PRINT SETUP
+========================================= */
 
-        .print-btn {
-            padding: 10px 30px;
-            border: 1px solid #222;
-            background: #222;
-            color: #fff;
-            font-family: "Noto Sans Bengali", Arial, sans-serif;
-            font-size: 15px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
+@page {
+    size: A4 portrait;
+    margin: 0;
+}
 
 
-        /* =========================================
-           A4 PAGE
-           
-           পুরো Page = 210mm
-           Padding দুই পাশে = 8mm
-           Content Area = 194mm
-        ========================================= */
-        .page {
-            width: 210mm;
-            min-height: 297mm;
+html,
+body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
 
-            margin: 10px auto;
 
-            padding: 8mm;
+/* =========================================
+   BODY
+========================================= */
 
-            background: #fff;
+body {
+    background: #e5e5e5;
+    font-family: "NikoshBAN", Arial, sans-serif;
+    font-size: 11px;
+    line-height: 1.25;
+    color: #000;
+}
 
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 
-            overflow: hidden;
+/* =========================================
+   PRINT BUTTON
+========================================= */
 
-            box-sizing: border-box;
-        }
+.print-area {
+    text-align: center;
+    padding: 15px;
+}
 
+.print-btn {
+    padding: 10px 30px;
+    border: 1px solid #222;
+    background: #222;
+    color: #fff;
+    font-family: "NikoshBAN", Arial, sans-serif;
+    font-size: 15px;
+    cursor: pointer;
+    border-radius: 4px;
+}
 
-        /* =========================================
-           HEADER
-        ========================================= */
-        .header {
-            width: 100%;
-            max-width: 100%;
 
-            display: grid;
+/* =========================================
+   A4 PAGE
 
-            grid-template-columns:
-                50mm
-                minmax(0, 1fr)
-                60mm;
+   পুরো Page = 210mm
+   Padding দুই পাশে = 8mm
+   Content Area = 194mm
+========================================= */
 
-            gap: 4mm;
+.page {
+    width: 210mm;
+    min-height: 297mm;
 
-            align-items: start;
+    margin: 10px auto;
 
-            margin-bottom: 2mm;
-        }
+    padding: 8mm;
 
+    background: #fff;
 
-        /* =========================================
-           PHOTO BOX
-        ========================================= */
-        .photo-box {
-            width: 35mm;
-            height: 45mm;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 
-            border: 1px solid #000;
+    overflow: hidden;
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
+    box-sizing: border-box;
+}
 
-            text-align: center;
-            font-size: 8px;
-            line-height: 1.5;
 
-            overflow: hidden;
-        }
+/* =========================================
+   GLOBAL FONT
+========================================= */
 
+.page,
+.page *,
+.print-area,
+.print-area * {
+    font-family: "NikoshBAN", Arial, sans-serif;
+}
 
-        /* =========================================
-           HEADER CENTER
-        ========================================= */
-        .header-center {
-            min-width: 0;
-            text-align: center;
-        }
 
+/* =========================================
+   HEADER
+========================================= */
 
-        .logo {
-            width: 17mm;
-            height: 17mm;
+.header {
+    width: 100%;
+    max-width: 100%;
 
-            border: 1px solid #000;
-            border-radius: 50%;
+    display: grid;
 
-            margin: 0 auto 1mm;
+    grid-template-columns:
+        50mm
+        minmax(0, 1fr)
+        60mm;
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
+    gap: 4mm;
 
-            font-size: 6px;
-        }
+    align-items: start;
 
+    margin-bottom: 2mm;
+}
 
-        .board-name {
-            font-size: 17px;
-            font-weight: 800;
-            line-height: 1.2;
-            white-space: nowrap;
-        }
 
+/* =========================================
+   PHOTO BOX
+========================================= */
 
-        .board-address {
-            font-size: 9px;
-            margin-top: 1mm;
-        }
+.photo-box {
+    width: 35mm;
+    height: 45mm;
 
+    border: 1px solid #000;
 
-        .header-details {
-            margin-top: 2mm;
-            text-align: left;
-            font-size: 9px;
-        }
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
+    text-align: center;
+    font-size: 8px;
+    line-height: 1.5;
 
-        .header-details div {
-            min-height: 6mm;
-            display: flex;
-            align-items: flex-end;
-            gap: 1mm;
-        }
+    overflow: hidden;
+}
 
 
-        /* =========================================
-           FORM INFO BOX
-        ========================================= */
-        .form-info {
-            width: 100%;
-            min-width: 0;
+/* =========================================
+   HEADER CENTER
+========================================= */
 
-            border: 1px solid #000;
+.header-center {
+    min-width: 0;
+    text-align: center;
+}
 
-            padding: 2mm;
 
-            min-height: 38mm;
-        }
+.logo {
+    width: 17mm;
+    height: 17mm;
 
+    border: 1px solid #000;
+    border-radius: 50%;
 
-        .form-info-row {
-            display: grid;
-            grid-template-columns: 18mm minmax(0, 1fr);
+    margin: 0 auto 1mm;
 
-            gap: 1mm;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-            min-height: 6.5mm;
+    font-size: 6px;
+}
 
-            align-items: end;
-        }
 
+.board-name {
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1.2;
+    white-space: nowrap;
+}
 
-        /* =========================================
-           TITLE
-        ========================================= */
-        .form-title {
-            width: 100%;
 
-            text-align: center;
+.board-address {
+    font-size: 9px;
+    margin-top: 1mm;
+}
 
-            font-size: 16px;
-            font-weight: 800;
 
-            text-decoration: underline;
+.header-details {
+    margin-top: 2mm;
+    text-align: left;
+    font-size: 9px;
+}
 
-            margin: 2mm 0 4mm;
-        }
 
+.header-details div {
+    min-height: 6mm;
+    display: flex;
+    align-items: flex-end;
+    gap: 1mm;
+}
 
-        /* =========================================
-           COMMON FIELD
-        ========================================= */
-        .section {
-            width: 100%;
-            max-width: 100%;
-            margin-top: 1.5mm;
-        }
 
+/* =========================================
+   FORM INFO BOX
+========================================= */
 
-        .field-row {
-            width: 100%;
-            max-width: 100%;
+.form-info {
+    width: 100%;
+    min-width: 0;
 
-            display: grid;
+    border: 1px solid #000;
 
-            grid-template-columns:
-                8mm
-                38mm
-                minmax(0, 1fr);
+    padding: 2mm;
 
-            gap: 1.5mm;
+    min-height: 38mm;
+}
 
-            min-height: 5mm;
 
-            align-items: end;
-        }
+.form-info-row {
+    display: grid;
+    grid-template-columns: 18mm minmax(0, 1fr);
 
+    gap: 1mm;
 
-        .field-row.two-fields {
-            grid-template-columns:
-                8mm
-                38mm
-                minmax(0, 1fr)
-                28mm
-                minmax(0, 1fr);
-        }
+    min-height: 6.5mm;
 
+    align-items: end;
+}
 
-        .serial {
-            font-weight: 700;
-            white-space: nowrap;
-        }
 
+/* =========================================
+   TITLE
+========================================= */
 
-        .label {
-            font-weight: 600;
-            min-width: 0;
-        }
+.form-title {
+    width: 100%;
 
+    text-align: center;
 
-        /* =========================================
-           BLANK LINE
-        ========================================= */
-        .blank-line {
-            width: 100%;
-            min-width: 0;
+    font-size: 16px;
+    font-weight: 800;
 
-            min-height: 2mm;
+    text-decoration: underline;
 
-            border-bottom: 1px dotted #000;
+    margin: 2mm 0 4mm;
+}
 
-            overflow: hidden;
-        }
 
+/* =========================================
+   COMMON FIELD
+========================================= */
 
-        /* =========================================
-           SECTION TITLE
-        ========================================= */
-        .section-title {
-            font-weight: 700;
-            font-size: 11px;
+.section {
+    width: 100%;
+    max-width: 100%;
+    margin-top: 1.5mm;
+}
 
-            margin: 2mm 0 1mm;
-        }
 
+.field-row {
+    width: 100%;
+    max-width: 100%;
 
-        /* =========================================
-           FAMILY TABLE
-        ========================================= */
-        .family-table {
-            width: 100%;
-            max-width: 100%;
+    display: grid;
 
-            border-collapse: collapse;
+    grid-template-columns:
+        8mm
+        38mm
+        minmax(0, 1fr);
 
-            table-layout: fixed;
+    gap: 1.5mm;
 
-            margin-top: 1mm;
-        }
+    min-height: 5mm;
 
+    align-items: end;
+}
 
-        .family-table th,
-        .family-table td {
-            border: 1px solid #000;
 
-            padding: 1mm;
+.field-row.two-fields {
+    grid-template-columns:
+        8mm
+        38mm
+        minmax(0, 1fr)
+        28mm
+        minmax(0, 1fr);
+}
 
-            height: 5.5mm;
 
-            text-align: center;
-            vertical-align: middle;
+.serial {
+    font-weight: 700;
+    white-space: nowrap;
+}
 
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
 
+.label {
+    font-weight: 600;
+    min-width: 0;
+}
 
-        .family-table th {
-            font-weight: 700;
-        }
 
+/* =========================================
+   BLANK LINE
+========================================= */
 
-        /* =========================================
-           TWO COLUMN INFORMATION
-        ========================================= */
-        .double-column {
-            width: 100%;
+.blank-line {
+    width: 100%;
+    min-width: 0;
 
-            display: grid;
+    min-height: 2mm;
 
-            grid-template-columns:
-                minmax(0, 1fr)
-                minmax(0, 1fr);
+    border-bottom: 1px dotted #000;
 
-            gap: 4mm;
+    overflow: hidden;
+}
 
-            margin-top: 1mm;
-        }
 
+/* =========================================
+   SECTION TITLE
+========================================= */
 
-        .small-field {
-            width: 100%;
+.section-title {
+    font-weight: 700;
+    font-size: 11px;
 
-            display: grid;
+    margin: 2mm 0 1mm;
+}
 
-            grid-template-columns:
-                27mm
-                minmax(0, 1fr);
 
-            gap: 1mm;
+/* =========================================
+   FAMILY TABLE
+========================================= */
 
-            min-height: 6mm;
+.family-table {
+    width: 100%;
+    max-width: 100%;
 
-            align-items: end;
-        }
+    border-collapse: collapse;
 
+    table-layout: fixed;
 
-        /* =========================================
-           FULL FIELD
-        ========================================= */
-        .full-field {
-            width: 100%;
-            max-width: 100%;
+    margin-top: 1mm;
+}
 
-            display: grid;
 
-            grid-template-columns:
-                8mm
-                60mm
-                minmax(0, 1fr);
+.family-table th,
+.family-table td {
+    border: 1px solid #000;
 
-            gap: 1.5mm;
+    padding: 1mm;
 
-            min-height: 7mm;
+    height: 5.5mm;
 
-            align-items: center;
-        }
+    text-align: center;
+    vertical-align: middle;
 
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
 
-        /* =========================================
-           FOOTER
-        ========================================= */
-        .footer {
-            width: 100%;
 
-            display: flex;
+.family-table th {
+    font-weight: 700;
+}
 
-            justify-content: space-between;
-            align-items: flex-end;
 
-            margin-top: 10mm;
-        }
+/* =========================================
+   TWO COLUMN INFORMATION
+========================================= */
 
+.double-column {
+    width: 100%;
 
-        .date-box {
-            width: 50mm;
-        }
+    display: grid;
 
+    grid-template-columns:
+        minmax(0, 1fr)
+        minmax(0, 1fr);
 
-        .signature-box {
-            width: 50mm;
+    gap: 4mm;
 
-            text-align: center;
-        }
+    margin-top: 1mm;
+}
 
 
-        .signature-line {
-            width: 100%;
+.small-field {
+    width: 100%;
 
-            border-top: 1px solid #000;
+    display: grid;
 
-            margin-bottom: 1mm;
-        }
+    grid-template-columns:
+        27mm
+        minmax(0, 1fr);
 
+    gap: 1mm;
 
-        /* =========================================
-           SCREEN RESPONSIVE
-        ========================================= */
-        @media screen and (max-width: 800px) {
+    min-height: 6mm;
 
-            .page {
-                width: 100%;
-                min-height: auto;
+    align-items: end;
+}
 
-                margin: 0;
 
-                padding: 15px;
+/* =========================================
+   FULL FIELD
+========================================= */
 
-                box-shadow: none;
-            }
+.full-field {
+    width: 100%;
+    max-width: 100%;
 
+    display: grid;
 
-            .header {
-                grid-template-columns: 1fr;
-            }
+    grid-template-columns:
+        8mm
+        60mm
+        minmax(0, 1fr);
 
+    gap: 1.5mm;
 
-            .photo-box {
-                margin: auto;
-            }
+    min-height: 7mm;
 
+    align-items: center;
+}
 
-            .field-row,
-            .field-row.two-fields,
-            .full-field {
-                grid-template-columns:
-                    8mm
-                    minmax(0, 1fr);
-            }
 
+/* =========================================
+   FOOTER
+========================================= */
 
-            .field-row .blank-line,
-            .full-field .blank-line {
-                grid-column: 2;
-            }
+.footer {
+    width: 100%;
 
+    display: flex;
 
-            .double-column {
-                grid-template-columns: 1fr;
-            }
+    justify-content: space-between;
+    align-items: flex-end;
 
+    margin-top: 10mm;
+}
 
-            .footer {
-                flex-direction: column;
-                gap: 15mm;
-                align-items: stretch;
-            }
 
+.date-box {
+    width: 50mm;
+}
 
-            .date-box,
-            .signature-box {
-                width: 100%;
-            }
 
-        }
+.signature-box {
+    width: 50mm;
 
+    text-align: center;
+}
 
-        /* =========================================
-           PRINT SETTINGS
-        ========================================= */
-        @media print {
 
-            @page {
-                size: A4 portrait;
-                margin: 0;
-            }
+.signature-line {
+    width: 100%;
 
+    border-top: 1px solid #000;
 
-            html,
-            body {
-                width: 210mm !important;
-                min-height: 297mm !important;
+    margin-bottom: 1mm;
+}
 
-                margin: 0 !important;
-                padding: 0 !important;
 
-                background: #fff !important;
-            }
+/* =========================================
+   SCREEN RESPONSIVE
+========================================= */
 
+@media screen and (max-width: 800px) {
 
-            body {
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
+    .page {
+        width: 100%;
+        min-height: auto;
 
+        margin: 0;
 
-            .print-area {
-                display: none !important;
-            }
+        padding: 15px;
 
+        box-shadow: none;
+    }
 
-            /* Main A4 Page */
-            .page {
-                width: 210mm !important;
-                min-width: 210mm !important;
-                max-width: 210mm !important;
 
-                min-height: 297mm !important;
+    .header {
+        grid-template-columns: 1fr;
+    }
 
-                margin: 0 !important;
 
-                padding: 8mm !important;
+    .photo-box {
+        margin: auto;
+    }
 
-                box-shadow: none !important;
 
-                overflow: hidden !important;
+    .field-row,
+    .field-row.two-fields,
+    .full-field {
+        grid-template-columns:
+            8mm
+            minmax(0, 1fr);
+    }
 
-                box-sizing: border-box !important;
 
-                page-break-after: always;
-                break-after: page;
-            }
+    .field-row .blank-line,
+    .full-field .blank-line {
+        grid-column: 2;
+    }
 
 
-            /* সব element page-এর বাইরে যাবে না */
-            .header,
-            .section,
-            .field-row,
-            .double-column,
-            .full-field,
-            .footer,
-            .family-table {
-                max-width: 100% !important;
-            }
+    .double-column {
+        grid-template-columns: 1fr;
+    }
 
 
-            /* Grid children overflow বন্ধ */
-            .header-center,
-            .form-info,
-            .blank-line,
-            .label,
-            .small-field {
-                min-width: 0 !important;
-            }
+    .footer {
+        flex-direction: column;
+        gap: 15mm;
+        align-items: stretch;
+    }
 
 
-            /* Table অবশ্যই page width-এর মধ্যে থাকবে */
-            table {
-                width: 100% !important;
-                max-width: 100% !important;
-            }
+    .date-box,
+    .signature-box {
+        width: 100%;
+    }
 
+}
 
-            /* Content মাঝখানে ভেঙে নতুন page-এ যাবে না */
-            .header,
-            .family-table,
-            .footer {
-                break-inside: avoid;
-                page-break-inside: avoid;
-            }
 
-        }
+/* =========================================
+   PRINT SETTINGS
+========================================= */
+
+@media print {
+
+    @page {
+        size: A4 portrait;
+        margin: 0;
+    }
+
+
+    html,
+    body {
+        width: 210mm !important;
+        min-height: 297mm !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        background: #fff !important;
+    }
+
+
+    body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+
+        font-family: "NikoshBAN", Arial, sans-serif !important;
+    }
+
+
+    /* Main A4 Page */
+
+    .page {
+        width: 210mm !important;
+        min-width: 210mm !important;
+        max-width: 210mm !important;
+
+        min-height: 297mm !important;
+
+        margin: 0 !important;
+
+        padding: 8mm !important;
+
+        box-shadow: none !important;
+
+        overflow: hidden !important;
+
+        box-sizing: border-box !important;
+
+        page-break-after: always;
+        break-after: page;
+    }
+
+
+    /* সব element page-এর বাইরে যাবে না */
+
+    .header,
+    .section,
+    .field-row,
+    .double-column,
+    .full-field,
+    .footer,
+    .family-table {
+        max-width: 100% !important;
+    }
+
+
+    /* Grid children overflow বন্ধ */
+
+    .header-center,
+    .form-info,
+    .blank-line,
+    .label,
+    .small-field {
+        min-width: 0 !important;
+    }
+
+
+    /* Table অবশ্যই page width-এর মধ্যে থাকবে */
+
+    table {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+
+    /* Content মাঝখানে ভেঙে নতুন page-এ যাবে না */
+
+    .header,
+    .family-table,
+    .footer {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+}
 
     </style>
 </head>
@@ -1122,9 +1165,9 @@
     <script>
         window.onload = function () {
             window.print();
-            window.onafterprint = function () {
-                window.close();
-            };
+            // window.onafterprint = function () {
+            //     window.close();
+            // };
 
         }
     </script>
