@@ -11,8 +11,15 @@
         /* =========================================
            বাংলা Font
         ========================================= */
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap');
+        /* @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap'); */
 
+        @font-face {
+            font-family: 'Kalpurush';
+            src: url('/fonts/Kalpurush.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
 
         /* =========================================
            RESET
@@ -43,7 +50,7 @@
 
         body {
             background: #e5e5e5;
-            font-family: "Noto Sans Bengali", Arial, sans-serif;
+            font-family: "Kalpurush", Arial, sans-serif;
             font-size: 11px;
             line-height: 1.25;
             color: #000;
@@ -160,12 +167,12 @@
             align-items: center;
             justify-content: center;
 
-            font-size: 6px;
+            font-size: .5rem;
         }
 
 
         .board-name {
-            font-size: 17px;
+            font-size: 1.1rem;
             font-weight: 800;
             line-height: 1.2;
             white-space: nowrap;
@@ -173,7 +180,7 @@
 
 
         .board-address {
-            font-size: 9px;
+            font-size: .8rem;
             margin-top: 1mm;
         }
 
@@ -217,6 +224,8 @@
             min-height: 6.5mm;
 
             align-items: end;
+
+            font-size: .8rem;
         }
 
 
@@ -228,7 +237,7 @@
 
             text-align: center;
 
-            font-size: 16px;
+            font-size: .9rem;
             font-weight: 800;
 
             text-decoration: underline;
@@ -285,6 +294,7 @@
         .label {
             font-weight: 600;
             min-width: 0;
+            font-size: .8rem;
         }
 
 
@@ -300,6 +310,8 @@
             border-bottom: 1px dotted #000;
 
             overflow: hidden;
+
+            font-size: .8rem;
         }
 
 
@@ -308,7 +320,7 @@
         ========================================= */
         .section-title {
             font-weight: 700;
-            font-size: 11px;
+            font-size: .8rem;
 
             margin: 2mm 0 1mm;
         }
@@ -342,6 +354,8 @@
 
             word-wrap: break-word;
             overflow-wrap: break-word;
+
+            font-size: .8rem;
         }
 
 
@@ -374,7 +388,7 @@
             display: grid;
 
             grid-template-columns:
-                27mm
+                34mm
                 minmax(0, 1fr);
 
             gap: 1mm;
@@ -782,8 +796,18 @@
                 <div class="blank-line">{{$tenant->email}}</div>
             </div>
 
+            <div class="field-row two-fields">
+                <div class="serial">৮।</div>
 
-            <div class="field-row">
+                <div class="label">জাতীয় পরিচয়পত্র নম্বর</div>
+                <div class="blank-line">{{$tenant->nid_no}}</div>
+
+                <div class="label">পাসপোর্ট নম্বর</div>
+                <div class="blank-line">{{$tenant->passport_no}}</div>
+            </div>
+
+
+            {{-- <div class="field-row">
                 <div class="serial">৮।</div>
                 <div class="label">জাতীয় পরিচয়পত্র নম্বর</div>
                 <div class="blank-line">{{$tenant->nid_no}}</div>
@@ -794,7 +818,7 @@
                 <div class="serial">৯।</div>
                 <div class="label">পাসপোর্ট নম্বর (যদি থাকে)</div>
                 <div class="blank-line">{{$tenant->passport_no}}</div>
-            </div>
+            </div> --}}
 
 
             <div class="field-row">
@@ -842,9 +866,9 @@
 
                 <thead>
                     <tr>
-                        <th style="width: 8%;">ক্রমিক</th>
+                        <th style="width: 6%;">ক্রমিক</th>
                         <th style="width: 28%;">নাম</th>
-                        <th style="width: 10%;">বয়স</th>
+                        <th style="width: 12%;">বয়স</th>
                         <th style="width: 18%;">সম্পর্ক</th>
                         <th style="width: 18%;">পেশা</th>
                         <th style="width: 18%;">মোবাইল নম্বর</th>
@@ -873,24 +897,6 @@
                         <td></td>
                         <td></td>
                     </tr> --}}
-
-                    <tr>
-                        <td>৩</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-
-                    <tr>
-                        <td>৪</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
 
                 </tbody>
 
@@ -1000,9 +1006,9 @@
 
                 <thead>
                     <tr>
-                        <th style="width: 8%;">ক্রমিক</th>
+                        <th style="width: 5%;">ক্রমিক</th>
                         <th style="width: 28%;">নাম</th>
-                        <th style="width: 10%;">মোবাইল নম্বর</th>
+                        <th style="width: 13%;">মোবাইল নম্বর</th>
                         <th style="width: 18%;">জাতীয় পরিচয়পত্র নং</th>
                         <th style="width: 18%;">স্থায়ী ঠিকানা</th>
                     </tr>

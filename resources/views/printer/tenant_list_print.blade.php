@@ -5,8 +5,8 @@
 
     <style>
         @font-face {
-            font-family: 'NikoshBAN';
-            src: url('/fonts/NikoshBAN.ttf') format('truetype');
+            font-family: 'Kalpurush';
+            src: url('/fonts/Kalpurush.ttf') format('truetype');
             font-weight: 400;
             font-style: normal;
             font-display: swap;
@@ -19,8 +19,8 @@
         }
 
         body {
-            font-family: 'NikoshBAN', sans-serif;
-            font-size: 15px;
+            font-family: 'Kalpurush', sans-serif;
+            font-size: 1rem;
         }
 
         table {
@@ -32,6 +32,7 @@
             border: 1px solid #000;
             padding: 4px;
             text-align: center;
+            font-size: .9rem;
         }
 
         th {
@@ -55,12 +56,12 @@
 
         .title h2 {
             margin: 0;
-            font-size: 22px;
+            font-size: 1.2rem;
         }
 
         .title p {
             margin: 2px 0;
-            font-size: 18px;
+            font-size: 1rem;
         }
         .text-left {
             text-align: left;
@@ -72,7 +73,7 @@
             top: 0;
             border: 1px solid #000;
             padding: 3px 5px;
-            font-size: 18px;
+            font-size: .9rem;
             text-align: left;
             min-width: 100px;
         }
@@ -109,29 +110,29 @@
         <h2>ঢাকা ক্যান্টনমেন্ট বোর্ড</h2>
          <p>বসবাসকারীদের তথ্য </p>
        {{-- <p>
-            <b style="text-decoration: underline;">অর্থ বছরঃ {{en2bn($fiscal)}} ইং</b>
+            <b style="text-decoration: underline;">অর্থ বছরঃ {{en2bn($fiscal)}} ইং
         </p> --}}
     </div>
     <div class="summary-box">
         <table>
             <tr>
-                <td>সর্বমোট প্লট:  </b></td>
+                <td>সর্বমোট প্লট:  </td>
                 <td>{{ en2bn($totalPlots) }} টি</td>
             </tr>
             <tr>
-                <td><b>সর্বমোট ফ্ল্যাট: </b></td>
+                <td>সর্বমোট ফ্ল্যাট: </td>
                 <td>{{ en2bn($totalFlats) }} টি</td> 
             </tr>
              <tr>
-                <td><b>নিজ বসতি:</b></td>
+                <td>নিজ বসতি:</td>
                 <td>{{ en2bn($ownerFlats) }} টি</td>
             </tr>
             <tr>
-                <td><b>ভাড়াটিয়া:   </b></td>
+                <td>ভাড়াটিয়া:   </td>
                 <td>{{ en2bn($tenantFlats) }} টি</td>
             </tr>
             {{-- <tr>
-                <td><b>Total :   </b></td>
+                <td>Total :   </td>
                 <td>{{ $present + $late + $leave + $absent}}</td>
             </tr> --}}
         </table>
@@ -163,7 +164,7 @@
         <tr>
             <td>{{ en2bn($key + 1) }}</td>
             <td class="text-left">
-               <b>{{ $record->tenant_name }}</b>
+               {{ $record->tenant_name }}
             </td>
 
             <td>{{ $record->father_name  }}</td>
@@ -176,10 +177,10 @@
 
             <td>{{ en2bn($record->currentAgreement->occupancy->flat->flat_no)  }}</td>
 
-            <td><b>{{ en2bn(\Carbon\Carbon::parse($record->currentAgreement->occupancy->start_date)->format('d-m-Y')) . 
-            ' ইং থেকে ' . en2bn(\Carbon\Carbon::parse($record->currentAgreement->occupancy->end_date)->format('d-m-Y')) . ' ইং' }}</b></td>
+            <td>{{ en2bn(\Carbon\Carbon::parse($record->currentAgreement->occupancy->start_date)->format('d-m-Y')) . 
+            ' ইং থেকে ' . en2bn(\Carbon\Carbon::parse($record->currentAgreement->occupancy->end_date)->format('d-m-Y')) . ' ইং' }}</td>
 
-            {{-- <td><b>{{ $statusText[$record->status] ?? '-' }}</b></td> --}}
+            {{-- <td>{{ $statusText[$record->status] ?? '-' }}</td> --}}
 
         </tr>
         @endforeach
@@ -189,9 +190,9 @@
 <script>
     window.onload = function () {
         window.print();
-        // window.onafterprint = function () {
-        //     window.close();
-        // };
+        window.onafterprint = function () {
+            window.close();
+        };
 
     }
 </script>

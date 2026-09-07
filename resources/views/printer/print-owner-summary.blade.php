@@ -33,6 +33,14 @@
             box-sizing: border-box;
         }
 
+        @font-face {
+            font-family: 'Kalpurush';
+            src: url('/fonts/Kalpurush.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
         html,
         body {
             margin: 0;
@@ -41,13 +49,11 @@
 
         body {
             font-family:
-                "Noto Sans Bengali",
-                "SolaimanLipi",
                 "Kalpurush",
                 Arial,
                 sans-serif;
 
-            font-size: 12px;
+            font-size: 1rem;
             line-height: 1.5;
             color: #111;
             background: #fff;

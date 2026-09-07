@@ -1,3 +1,33 @@
+
+.fi {
+    /* XS */
+    --text-xs: 0.9429rem;
+    --text-xs--line-height: calc(1 / 0.75);
+
+    /* SM */
+    --text-sm: 1.1rem;
+    --text-sm--line-height: calc(1.25 / 0.875);
+
+    /* BASE */
+    --text-base: 1.2571rem;
+    --text-base--line-height: calc(1.5 / 1);
+
+    /* LG */
+    --text-lg: 1.4143rem;
+    --text-lg--line-height: calc(1.75 / 1.125);
+
+    /* XL */
+    --text-xl: 1.5714rem;
+    --text-xl--line-height: calc(1.75 / 1.25);
+
+    /* 2XL */
+    --text-2xl: 1.8857rem;
+    --text-2xl--line-height: calc(2 / 1.5);
+
+    /* 3XL */
+    --text-3xl: 2.3571rem;
+    --text-3xl--line-height: calc(2.25 / 1.875);
+}
 @import '../../../../vendor/filament/filament/resources/css/theme.css';
 
 @source '../../../../app/Filament/**/*';
@@ -6,11 +36,11 @@
 @import '../../filament-custom.css';
 
 /* =========================================
-   NikoshBAN Font
+   Kalpurush Font
    ========================================= */
 @font-face {
-    font-family: 'NikoshBAN';
-    src: url('/fonts/NikoshBAN.ttf') format('truetype');
+    font-family: 'Kalpurush';
+    src: url('/fonts/Kalpurush.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
@@ -23,298 +53,5 @@
 
 html,
 body {
-    font-family: 'NikoshBAN', sans-serif !important;
+    font-family: 'Kalpurush', sans-serif !important;
 }
-
-
-/* =========================================
-   Logo
-   ========================================= */
-
-.fi-logo {
-    font-family: 'NikoshBAN', sans-serif !important;
-    font-size: 30px !important;
-    line-height: 1 !important;
-}
-
-
-/* =========================================
-   Sidebar
-   ========================================= */
-
-.fi-sidebar-item-label {
-    font-family: 'NikoshBAN', sans-serif !important;
-    font-size: 20px !important;
-    line-height: 1.2 !important;
-}
-
-.fi-sidebar-group-label {
-    font-family: 'NikoshBAN', sans-serif !important;
-    font-size: 20px !important;
-    line-height: 1.2 !important;
-}
-
-
-/* =========================================
-   Page Header
-   ========================================= */
-
-.fi-header-heading {
-    font-family: 'NikoshBAN', sans-serif !important;
-    font-size: 30px !important;
-    line-height: 1.1 !important;
-}
-
-
-/* =========================================
-   Breadcrumb
-   ========================================= */
-
-.fi-breadcrumbs-item-label {
-    font-family: 'NikoshBAN', sans-serif !important;
-    font-size: 20px !important;
-    line-height: 1.2 !important;
-}
-
-
-/* =========================================
-   Table Header
-   ========================================= */
-
-.fi-ta-header-cell {
-    font-family: 'NikoshBAN', sans-serif !important;
-    font-size: 20px !important;
-    line-height: 1.2 !important;
-}
-
-
-/* =========================================
-   Table Data
-   ========================================= */
-
-.fi-ta-text-item {
-    font-family: 'NikoshBAN', sans-serif !important;
-    font-size: 20px !important;
-    line-height: 1.2 !important;
-}
-
-
-/* =========================================
-   Table Actions
-   ========================================= */
-
-.fi-ta-actions {
-    font-family: 'NikoshBAN', sans-serif !important;
-}
-
-.fi-ta-actions .fi-btn {
-    font-family: 'NikoshBAN', sans-serif !important;
-    font-size: 20px !important;
-    line-height: 1.2 !important;
-}
-
-
-/* =========================================
-   Search
-   ========================================= */
-
-.fi-ta-search-field input {
-    font-family: 'NikoshBAN', sans-serif !important;
-    font-size: 20px !important;
-}
-
-
-/* =========================================
-   Pagination
-   ========================================= */
-
-.fi-pagination {
-    font-family: 'NikoshBAN', sans-serif !important;
-    font-size: 20px !important;
-}
-
-.fi-pagination * {
-    line-height: 1.2 !important;
-}
-
-
-/* =========================================
-   Buttons
-   ========================================= */
-
-.fi-btn {
-    font-family: 'NikoshBAN', sans-serif !important;
-    font-size: 20px !important;
-    line-height: 1.2 !important;
-}
-
-
-/* =========================================
-   Form Labels
-   ========================================= */
-
-.fi-fo-field-wrp-label {
-    font-family: 'NikoshBAN', sans-serif !important;
-    font-size: 20px !important;
-    line-height: 1.2 !important;
-}
-
-
-/* =========================================
-   Form Input
-   ========================================= */
-
-.fi-input,
-.fi-select-input,
-.fi-fo-field-wrp input,
-.fi-fo-field-wrp textarea,
-.fi-fo-field-wrp select {
-    font-family: 'NikoshBAN', sans-serif !important;
-    font-size: 18px !important;
-    line-height: 1.2 !important;
-}
-
-
-/* =========================================
-   Section
-   ========================================= */
-
-.fi-section-header-heading {
-    font-family: 'NikoshBAN', sans-serif !important;
-    font-size: 20px !important;
-    line-height: 1.2 !important;
-}
-
-
-/* =========================================
-   Stats Overview
-   ========================================= */
-
-.fi-wi-stats-overview-stat-label {
-    font-family: 'NikoshBAN', sans-serif !important;
-    font-size: 20px !important;
-    line-height: 1.2 !important;
-}
-
-.fi-wi-stats-overview-stat-description {
-    font-family: 'NikoshBAN', sans-serif !important;
-    font-size: 20px !important;
-    line-height: 1.2 !important;
-}
-
-/* =========================================
-   Form Field Label
-   ========================================= */
-
-/* .fi-fo-field-wrp-label,
-.fi-fo-field-wrp-label label,
-.fi-fo-field-wrp-label span {
-    font-family: 'NikoshBAN', sans-serif !important;
-    font-size: 30px !important;
-    line-height: 1.2 !important;
-} */
-.fi-fo-field-label-content {
-    font-family: 'NikoshBAN', sans-serif !important;
-    font-size: 18px !important;
-    line-height: 1.2 !important;
-}
-
-/* Form Helper / Hint Text */
-.fi-fo-field-wrp-helper-text {
-    font-family: 'NikoshBAN', sans-serif !important;
-    font-size: 16px !important;
-    line-height: 1.2 !important;
-}
-
-
-/* =========================================
-   Relation Manager Tabs
-   ========================================= */
-
-.fi-tabs-item,
-.fi-tabs-item-label,
-.fi-tabs-item button,
-.fi-tabs-item span {
-    font-family: 'NikoshBAN', sans-serif !important;
-    font-size: 20px !important;
-    line-height: 1.2 !important;
-}
-
-
-/* =========================================
-   Relation Manager Header
-   ========================================= */
-
-.fi-rl-header,
-.fi-rl-header-heading {
-    font-family: 'NikoshBAN', sans-serif !important;
-}
-
-.fi-rl-header-heading {
-    font-size: 20px !important;
-    line-height: 1.2 !important;
-}
-
-
-/* =========================================
-   Relation Manager Table
-   ========================================= */
-
-.fi-rl,
-.fi-rl * {
-    font-family: 'NikoshBAN', sans-serif;
-}
-
-.fi-link-label {
-    font-family: 'NikoshBAN', sans-serif !important;
-    font-size: 20px !important;
-    line-height: 1.2 !important;
-}
-
-.fi-sc-wizard-header-step-label {
-    font-family: 'NikoshBAN', sans-serif !important;
-    font-size: 20px !important;
-    line-height: 1.2 !important;
-}
-
-
-
-/* .fi-logo {
-    font-family: 'NikoshBAN' !important;
-    font-size: 30px !important;
-}
-
-.fi-sidebar-item-label {
-    font-family: 'NikoshBAN' !important;
-    font-size: 22px !important;
-}
-
-.fi-sidebar-group-label {
-    font-family: 'NikoshBAN' !important;
-    font-size: 20px !important;
-}
-
-.fi-wi-stats-overview-stat-label {
-    font-family: 'NikoshBAN' !important;
-    font-size: 30px !important;
-}
-
-.fi-wi-stats-overview-stat-description {
-    font-family: 'NikoshBAN' !important;
-    font-size: 20px !important;
-}
-
-.fi-breadcrumbs-item-label  {
-    font-family: 'NikoshBAN' !important;
-    font-size: 17px !important;
-}
-
-.fi-ta-text-item {  
-    font-family: 'NikoshBAN' !important;
-    font-size: 18px !important;
-}
-
-.fi-ta-header-cell {
-    font-family: 'NikoshBAN' !important;
-    font-size: 20px !important;
-} */

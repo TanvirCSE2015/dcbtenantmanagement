@@ -8,641 +8,612 @@
     <title>ভাড়াটিয়া নিবন্ধন ফরম</title>
 
     <style>
-       /* =========================================
-   NikoshBAN Font
-========================================= */
+      /* =========================================
+           বাংলা Font
+        ========================================= */
+        /* @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap'); */
+
+        @font-face {
+            font-family: 'Kalpurush';
+            src: url('/fonts/Kalpurush.ttf') format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        /* =========================================
+           RESET
+        ========================================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        /* =========================================
+           A4 PRINT SETUP
+        ========================================= */
+        @page {
+            size: A4 portrait;
+            margin: 0;
+        }
+
+
+        html,
+        body {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+            background: #e5e5e5;
+            font-family: "Kalpurush", Arial, sans-serif;
+            font-size: 11px;
+            line-height: 1.25;
+            color: #000;
+        }
+
+
+        /* =========================================
+           PRINT BUTTON
+        ========================================= */
+        .print-area {
+            text-align: center;
+            padding: 15px;
+        }
 
-@font-face {
-    font-family: 'NikoshBAN';
-    src: url('/fonts/NikoshBAN.ttf') format('truetype');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-}
+        .print-btn {
+            padding: 10px 30px;
+            border: 1px solid #222;
+            background: #222;
+            color: #fff;
+            font-family: "Noto Sans Bengali", Arial, sans-serif;
+            font-size: 15px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
 
 
-/* =========================================
-   RESET
-========================================= */
+        /* =========================================
+           A4 PAGE
+           
+           পুরো Page = 210mm
+           Padding দুই পাশে = 8mm
+           Content Area = 194mm
+        ========================================= */
+        .page {
+            width: 210mm;
+            min-height: 297mm;
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+            margin: 10px auto;
 
+            padding: 8mm;
 
-/* =========================================
-   A4 PRINT SETUP
-========================================= */
+            background: #fff;
 
-@page {
-    size: A4 portrait;
-    margin: 0;
-}
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 
+            overflow: hidden;
 
-html,
-body {
-    width: 100%;
-    margin: 0;
-    padding: 0;
-}
+            box-sizing: border-box;
+        }
 
 
-/* =========================================
-   BODY
-========================================= */
+        /* =========================================
+           HEADER
+        ========================================= */
+        .header {
+            width: 100%;
+            max-width: 100%;
 
-body {
-    background: #e5e5e5;
-    font-family: "NikoshBAN", Arial, sans-serif;
-    font-size: 11px;
-    line-height: 1.25;
-    color: #000;
-}
+            display: grid;
 
+            grid-template-columns:
+                50mm
+                minmax(0, 1fr)
+                60mm;
 
-/* =========================================
-   PRINT BUTTON
-========================================= */
+            gap: 4mm;
 
-.print-area {
-    text-align: center;
-    padding: 15px;
-}
+            align-items: start;
 
-.print-btn {
-    padding: 10px 30px;
-    border: 1px solid #222;
-    background: #222;
-    color: #fff;
-    font-family: "NikoshBAN", Arial, sans-serif;
-    font-size: 15px;
-    cursor: pointer;
-    border-radius: 4px;
-}
+            margin-bottom: 2mm;
+        }
 
 
-/* =========================================
-   A4 PAGE
+        /* =========================================
+           PHOTO BOX
+        ========================================= */
+        .photo-box {
+            width: 35mm;
+            height: 45mm;
 
-   পুরো Page = 210mm
-   Padding দুই পাশে = 8mm
-   Content Area = 194mm
-========================================= */
+            border: 1px solid #000;
 
-.page {
-    width: 210mm;
-    min-height: 297mm;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
-    margin: 10px auto;
+            text-align: center;
+            font-size: 8px;
+            line-height: 1.5;
 
-    padding: 8mm;
+            overflow: hidden;
+        }
 
-    background: #fff;
 
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+        /* =========================================
+           HEADER CENTER
+        ========================================= */
+        .header-center {
+            min-width: 0;
+            text-align: center;
+        }
 
-    overflow: hidden;
 
-    box-sizing: border-box;
-}
+        .logo {
+            width: 17mm;
+            height: 17mm;
 
+            border: 1px solid #000;
+            border-radius: 50%;
 
-/* =========================================
-   GLOBAL FONT
-========================================= */
+            margin: 0 auto 1mm;
 
-.page,
-.page *,
-.print-area,
-.print-area * {
-    font-family: "NikoshBAN", Arial, sans-serif;
-}
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
+            font-size: .5rem;
+        }
 
-/* =========================================
-   HEADER
-========================================= */
 
-.header {
-    width: 100%;
-    max-width: 100%;
+        .board-name {
+            font-size: 1.1rem;
+            font-weight: 800;
+            line-height: 1.2;
+            white-space: nowrap;
+        }
 
-    display: grid;
 
-    grid-template-columns:
-        50mm
-        minmax(0, 1fr)
-        60mm;
+        .board-address {
+            font-size: .8rem;
+            margin-top: 1mm;
+        }
 
-    gap: 4mm;
 
-    align-items: start;
+        .header-details {
+            margin-top: 2mm;
+            text-align: left;
+            font-size: 9px;
+        }
 
-    margin-bottom: 2mm;
-}
 
+        .header-details div {
+            min-height: 6mm;
+            display: flex;
+            align-items: flex-end;
+            gap: 1mm;
+        }
 
-/* =========================================
-   PHOTO BOX
-========================================= */
 
-.photo-box {
-    width: 35mm;
-    height: 45mm;
+        /* =========================================
+           FORM INFO BOX
+        ========================================= */
+        .form-info {
+            width: 100%;
+            min-width: 0;
 
-    border: 1px solid #000;
+            border: 1px solid #000;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+            padding: 2mm;
 
-    text-align: center;
-    font-size: 8px;
-    line-height: 1.5;
+            min-height: 38mm;
+        }
 
-    overflow: hidden;
-}
 
+        .form-info-row {
+            display: grid;
+            grid-template-columns: 18mm minmax(0, 1fr);
 
-/* =========================================
-   HEADER CENTER
-========================================= */
+            gap: 1mm;
 
-.header-center {
-    min-width: 0;
-    text-align: center;
-}
+            min-height: 6.5mm;
 
+            align-items: end;
 
-.logo {
-    width: 17mm;
-    height: 17mm;
+            font-size: .8rem;
+        }
 
-    border: 1px solid #000;
-    border-radius: 50%;
 
-    margin: 0 auto 1mm;
+        /* =========================================
+           TITLE
+        ========================================= */
+        .form-title {
+            width: 100%;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+            text-align: center;
 
-    font-size: 6px;
-}
+            font-size: .9rem;
+            font-weight: 800;
 
+            text-decoration: underline;
 
-.board-name {
-    font-size: 17px;
-    font-weight: 800;
-    line-height: 1.2;
-    white-space: nowrap;
-}
+            margin: 2mm 0 4mm;
+        }
 
 
-.board-address {
-    font-size: 9px;
-    margin-top: 1mm;
-}
+        /* =========================================
+           COMMON FIELD
+        ========================================= */
+        .section {
+            width: 100%;
+            max-width: 100%;
+            margin-top: 1.5mm;
+        }
 
 
-.header-details {
-    margin-top: 2mm;
-    text-align: left;
-    font-size: 9px;
-}
+        .field-row {
+            width: 100%;
+            max-width: 100%;
 
+            display: grid;
 
-.header-details div {
-    min-height: 6mm;
-    display: flex;
-    align-items: flex-end;
-    gap: 1mm;
-}
+            grid-template-columns:
+                8mm
+                38mm
+                minmax(0, 1fr);
 
+            gap: 1.5mm;
 
-/* =========================================
-   FORM INFO BOX
-========================================= */
+            min-height: 5mm;
 
-.form-info {
-    width: 100%;
-    min-width: 0;
+            align-items: end;
+        }
 
-    border: 1px solid #000;
 
-    padding: 2mm;
+        .field-row.two-fields {
+            grid-template-columns:
+                8mm
+                38mm
+                minmax(0, 1fr)
+                28mm
+                minmax(0, 1fr);
+        }
 
-    min-height: 38mm;
-}
 
+        .serial {
+            font-weight: 700;
+            white-space: nowrap;
+        }
 
-.form-info-row {
-    display: grid;
-    grid-template-columns: 18mm minmax(0, 1fr);
 
-    gap: 1mm;
+        .label {
+            font-weight: 600;
+            min-width: 0;
+            font-size: .8rem;
+        }
 
-    min-height: 6.5mm;
 
-    align-items: end;
-}
+        /* =========================================
+           BLANK LINE
+        ========================================= */
+        .blank-line {
+            width: 100%;
+            min-width: 0;
 
+            min-height: 2mm;
 
-/* =========================================
-   TITLE
-========================================= */
+            border-bottom: 1px dotted #000;
 
-.form-title {
-    width: 100%;
+            overflow: hidden;
 
-    text-align: center;
+            font-size: .8rem;
+        }
 
-    font-size: 16px;
-    font-weight: 800;
 
-    text-decoration: underline;
+        /* =========================================
+           SECTION TITLE
+        ========================================= */
+        .section-title {
+            font-weight: 700;
+            font-size: .8rem;
 
-    margin: 2mm 0 4mm;
-}
+            margin: 2mm 0 1mm;
+        }
 
 
-/* =========================================
-   COMMON FIELD
-========================================= */
+        /* =========================================
+           FAMILY TABLE
+        ========================================= */
+        .family-table {
+            width: 100%;
+            max-width: 100%;
 
-.section {
-    width: 100%;
-    max-width: 100%;
-    margin-top: 1.5mm;
-}
+            border-collapse: collapse;
 
+            table-layout: fixed;
 
-.field-row {
-    width: 100%;
-    max-width: 100%;
+            margin-top: 1mm;
+        }
 
-    display: grid;
 
-    grid-template-columns:
-        8mm
-        38mm
-        minmax(0, 1fr);
+        .family-table th,
+        .family-table td {
+            border: 1px solid #000;
 
-    gap: 1.5mm;
+            padding: 1mm;
 
-    min-height: 5mm;
+            height: 5.5mm;
 
-    align-items: end;
-}
+            text-align: center;
+            vertical-align: middle;
 
+            word-wrap: break-word;
+            overflow-wrap: break-word;
 
-.field-row.two-fields {
-    grid-template-columns:
-        8mm
-        38mm
-        minmax(0, 1fr)
-        28mm
-        minmax(0, 1fr);
-}
+            font-size: .8rem;
+        }
 
 
-.serial {
-    font-weight: 700;
-    white-space: nowrap;
-}
+        .family-table th {
+            font-weight: 700;
+        }
 
 
-.label {
-    font-weight: 600;
-    min-width: 0;
-}
+        /* =========================================
+           TWO COLUMN INFORMATION
+        ========================================= */
+        .double-column {
+            width: 100%;
 
+            display: grid;
 
-/* =========================================
-   BLANK LINE
-========================================= */
+            grid-template-columns:
+                minmax(0, 1fr)
+                minmax(0, 1fr);
 
-.blank-line {
-    width: 100%;
-    min-width: 0;
+            gap: 4mm;
 
-    min-height: 2mm;
+            margin-top: 1mm;
+        }
 
-    border-bottom: 1px dotted #000;
 
-    overflow: hidden;
-}
+        .small-field {
+            width: 100%;
 
+            display: grid;
 
-/* =========================================
-   SECTION TITLE
-========================================= */
+            grid-template-columns:
+                34mm
+                minmax(0, 1fr);
 
-.section-title {
-    font-weight: 700;
-    font-size: 11px;
+            gap: 1mm;
 
-    margin: 2mm 0 1mm;
-}
+            min-height: 6mm;
 
+            align-items: end;
+        }
 
-/* =========================================
-   FAMILY TABLE
-========================================= */
 
-.family-table {
-    width: 100%;
-    max-width: 100%;
+        /* =========================================
+           FULL FIELD
+        ========================================= */
+        .full-field {
+            width: 100%;
+            max-width: 100%;
 
-    border-collapse: collapse;
+            display: grid;
 
-    table-layout: fixed;
+            grid-template-columns:
+                8mm
+                60mm
+                minmax(0, 1fr);
 
-    margin-top: 1mm;
-}
+            gap: 1.5mm;
 
+            min-height: 7mm;
 
-.family-table th,
-.family-table td {
-    border: 1px solid #000;
+            align-items: center;
+        }
 
-    padding: 1mm;
 
-    height: 5.5mm;
+        /* =========================================
+           FOOTER
+        ========================================= */
+        .footer {
+            width: 100%;
 
-    text-align: center;
-    vertical-align: middle;
+            display: flex;
 
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-}
+            justify-content: space-between;
+            align-items: flex-end;
 
+            margin-top: 10mm;
+        }
 
-.family-table th {
-    font-weight: 700;
-}
 
+        .date-box {
+            width: 50mm;
+        }
 
-/* =========================================
-   TWO COLUMN INFORMATION
-========================================= */
 
-.double-column {
-    width: 100%;
+        .signature-box {
+            width: 50mm;
 
-    display: grid;
+            text-align: center;
+        }
 
-    grid-template-columns:
-        minmax(0, 1fr)
-        minmax(0, 1fr);
 
-    gap: 4mm;
+        .signature-line {
+            width: 100%;
 
-    margin-top: 1mm;
-}
+            border-top: 1px solid #000;
 
+            margin-bottom: 1mm;
+        }
 
-.small-field {
-    width: 100%;
 
-    display: grid;
+        /* =========================================
+           SCREEN RESPONSIVE
+        ========================================= */
+        @media screen and (max-width: 800px) {
 
-    grid-template-columns:
-        27mm
-        minmax(0, 1fr);
+            .page {
+                width: 100%;
+                min-height: auto;
 
-    gap: 1mm;
+                margin: 0;
 
-    min-height: 6mm;
+                padding: 15px;
 
-    align-items: end;
-}
+                box-shadow: none;
+            }
 
 
-/* =========================================
-   FULL FIELD
-========================================= */
+            .header {
+                grid-template-columns: 1fr;
+            }
 
-.full-field {
-    width: 100%;
-    max-width: 100%;
 
-    display: grid;
+            .photo-box {
+                margin: auto;
+            }
 
-    grid-template-columns:
-        8mm
-        60mm
-        minmax(0, 1fr);
 
-    gap: 1.5mm;
+            .field-row,
+            .field-row.two-fields,
+            .full-field {
+                grid-template-columns:
+                    8mm
+                    minmax(0, 1fr);
+            }
 
-    min-height: 7mm;
 
-    align-items: center;
-}
+            .field-row .blank-line,
+            .full-field .blank-line {
+                grid-column: 2;
+            }
 
 
-/* =========================================
-   FOOTER
-========================================= */
+            .double-column {
+                grid-template-columns: 1fr;
+            }
 
-.footer {
-    width: 100%;
 
-    display: flex;
+            .footer {
+                flex-direction: column;
+                gap: 15mm;
+                align-items: stretch;
+            }
 
-    justify-content: space-between;
-    align-items: flex-end;
 
-    margin-top: 10mm;
-}
+            .date-box,
+            .signature-box {
+                width: 100%;
+            }
 
+        }
 
-.date-box {
-    width: 50mm;
-}
 
+        /* =========================================
+           PRINT SETTINGS
+        ========================================= */
+        @media print {
 
-.signature-box {
-    width: 50mm;
+            @page {
+                size: A4 portrait;
+                margin: 0;
+            }
 
-    text-align: center;
-}
 
+            html,
+            body {
+                width: 210mm !important;
+                min-height: 297mm !important;
 
-.signature-line {
-    width: 100%;
+                margin: 0 !important;
+                padding: 0 !important;
 
-    border-top: 1px solid #000;
+                background: #fff !important;
+            }
 
-    margin-bottom: 1mm;
-}
 
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
 
-/* =========================================
-   SCREEN RESPONSIVE
-========================================= */
 
-@media screen and (max-width: 800px) {
+            .print-area {
+                display: none !important;
+            }
 
-    .page {
-        width: 100%;
-        min-height: auto;
 
-        margin: 0;
+            /* Main A4 Page */
+            .page {
+                width: 210mm !important;
+                min-width: 210mm !important;
+                max-width: 210mm !important;
 
-        padding: 15px;
+                min-height: 297mm !important;
 
-        box-shadow: none;
-    }
+                margin: 0 !important;
 
+                padding: 8mm !important;
 
-    .header {
-        grid-template-columns: 1fr;
-    }
+                box-shadow: none !important;
 
+                overflow: hidden !important;
 
-    .photo-box {
-        margin: auto;
-    }
+                box-sizing: border-box !important;
 
+                page-break-after: always;
+                break-after: page;
+            }
 
-    .field-row,
-    .field-row.two-fields,
-    .full-field {
-        grid-template-columns:
-            8mm
-            minmax(0, 1fr);
-    }
 
+            /* সব element page-এর বাইরে যাবে না */
+            .header,
+            .section,
+            .field-row,
+            .double-column,
+            .full-field,
+            .footer,
+            .family-table {
+                max-width: 100% !important;
+            }
 
-    .field-row .blank-line,
-    .full-field .blank-line {
-        grid-column: 2;
-    }
 
+            /* Grid children overflow বন্ধ */
+            .header-center,
+            .form-info,
+            .blank-line,
+            .label,
+            .small-field {
+                min-width: 0 !important;
+            }
 
-    .double-column {
-        grid-template-columns: 1fr;
-    }
 
+            /* Table অবশ্যই page width-এর মধ্যে থাকবে */
+            table {
+                width: 100% !important;
+                max-width: 100% !important;
+            }
 
-    .footer {
-        flex-direction: column;
-        gap: 15mm;
-        align-items: stretch;
-    }
 
+            /* Content মাঝখানে ভেঙে নতুন page-এ যাবে না */
+            .header,
+            .family-table,
+            .footer {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
 
-    .date-box,
-    .signature-box {
-        width: 100%;
-    }
-
-}
-
-
-/* =========================================
-   PRINT SETTINGS
-========================================= */
-
-@media print {
-
-    @page {
-        size: A4 portrait;
-        margin: 0;
-    }
-
-
-    html,
-    body {
-        width: 210mm !important;
-        min-height: 297mm !important;
-
-        margin: 0 !important;
-        padding: 0 !important;
-
-        background: #fff !important;
-    }
-
-
-    body {
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-
-        font-family: "NikoshBAN", Arial, sans-serif !important;
-    }
-
-
-    /* Main A4 Page */
-
-    .page {
-        width: 210mm !important;
-        min-width: 210mm !important;
-        max-width: 210mm !important;
-
-        min-height: 297mm !important;
-
-        margin: 0 !important;
-
-        padding: 8mm !important;
-
-        box-shadow: none !important;
-
-        overflow: hidden !important;
-
-        box-sizing: border-box !important;
-
-        page-break-after: always;
-        break-after: page;
-    }
-
-
-    /* সব element page-এর বাইরে যাবে না */
-
-    .header,
-    .section,
-    .field-row,
-    .double-column,
-    .full-field,
-    .footer,
-    .family-table {
-        max-width: 100% !important;
-    }
-
-
-    /* Grid children overflow বন্ধ */
-
-    .header-center,
-    .form-info,
-    .blank-line,
-    .label,
-    .small-field {
-        min-width: 0 !important;
-    }
-
-
-    /* Table অবশ্যই page width-এর মধ্যে থাকবে */
-
-    table {
-        width: 100% !important;
-        max-width: 100% !important;
-    }
-
-
-    /* Content মাঝখানে ভেঙে নতুন page-এ যাবে না */
-
-    .header,
-    .family-table,
-    .footer {
-        break-inside: avoid;
-        page-break-inside: avoid;
-    }
-
-}
+        }
 
     </style>
 </head>
@@ -1165,9 +1136,9 @@ body {
     <script>
         window.onload = function () {
             window.print();
-            // window.onafterprint = function () {
-            //     window.close();
-            // };
+            window.onafterprint = function () {
+                window.close();
+            };
 
         }
     </script>
