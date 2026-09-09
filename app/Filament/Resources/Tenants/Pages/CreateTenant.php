@@ -61,11 +61,13 @@ class CreateTenant extends CreateRecord
             |--------------------------------------------------------------------------
             */
 
+            $occupancyType = $data['occupancy_type'];
+
             $occupancy = Occupancy::create([
                 'flat_id'        => $data['flat_no'],
-                'occupancy_type' => 'tenant',
-                'start_date'     => $data['agreement_start_date'],
-                'end_date'       => $data['agreement_end_date'],
+                'occupancy_type' => $occupancyType,
+                'start_date'     => $data['agreement_start_date'] ?? now()->format('Y-m-d'),
+                'end_date'       => $data['agreement_end_date'] ?? '9999-12-31',
                 'is_current'     => true,
             ]);
 
@@ -74,17 +76,51 @@ class CreateTenant extends CreateRecord
             | Rental Agreement Create
             |--------------------------------------------------------------------------
             */
+            if ($occupancyType === 'tenant'){
 
-            $agreement = RentalAgreement::create([
-                'occupancy_id'          => $occupancy->id,
-                'tenant_id'             => $tenant->id,
-                'agreement_no'          => $data['agreement_no'],
-                'agreement_start_date'  => $data['agreement_start_date'],
-                'agreement_end_date'    => $data['agreement_end_date'],
-                'monthly_rent'          => $data['monthly_rent'] ?? null,
-                'security_deposit'      => $data['security_deposit'] ?? null,
-                'status'                => 'active',
-            ]);
+                $agreement = RentalAgreement::create([
+                    'occupancy_id'          => $occupancy->id,
+                    'tenant_id'             => $tenant->id,
+                    'agreement_no'          => $data['agreement_no'],
+                    'agreement_start_date'  => $data['agreement_start_date'],
+                    'agreement_end_date'    => $data['agreement_end_date'],
+                    'monthly_rent'          => $data['monthly_rent'] ?? null,
+                    'security_deposit'      => $data['security_deposit'] ?? null,
+                    'status'                => 'active',
+                ]);
+            }else{
+                 /*
+                |--------------------------------------------------------------------------
+                | Owner Internal Agreement
+                |--------------------------------------------------------------------------
+                */
+                $agreementNo = null;
+                do {
+
+                    $agreementNo =
+                        'OWN-' .
+                        now()->format('Ym') .
+                        '-' .
+                        rand(1000, 9999);
+
+                } while (
+                    RentalAgreement::where(
+                        'agreement_no',
+                        $agreementNo
+                    )->exists()
+                );
+
+                $agreement = RentalAgreement::create([
+                    'occupancy_id'          => $occupancy->id,
+                    'tenant_id'             => $tenant->id,
+                    'agreement_no'          => $agreementNo,
+                    'agreement_start_date'  => now()->format('Y-m-d'),
+                    'agreement_end_date'    => '9999-12-31',
+                    'monthly_rent'          => null,
+                    'security_deposit'      => null,
+                    'status'                => 'active',
+                ]);
+            }
 
             /*
             |--------------------------------------------------------------------------

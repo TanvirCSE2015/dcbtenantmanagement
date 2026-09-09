@@ -12,12 +12,14 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Fieldset;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Wizard;
 use Filament\Schemas\Components\Wizard\Step;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\Rule;
 
 class TenantForm
 {
@@ -32,6 +34,14 @@ class TenantForm
                     ->schema([
                         Fieldset::make()
                         ->schema([
+                            Select::make('occupancy_type')
+                                ->label('বসতির ধরন')
+                                ->options([
+                                    'tenant' => 'ভাড়াটিয়া',
+                                    'owner'  => 'নিজ বসতি',
+                                ])
+                                ->live()
+                                ->required(),
                             Select::make('flat_no')
                                 ->label(__('formlabel.flat_no'))
                                     ->options(function (?Model $record) {
@@ -102,7 +112,7 @@ class TenantForm
                             ->label(__('formlabel.mother_name'))
                                 ->required(),
                         ])
-                        ->columns(4)
+                        ->columns(5)
                         ->columnSpanFull(),
                         Fieldset::make()
                         ->schema([
@@ -161,10 +171,37 @@ class TenantForm
                     ->columns(4),
                     Step::make('ভাড়াটিয়ার চুক্তিপত্র')
                     ->icon('heroicon-o-document-text')
+                    ->visible(fn (Get $get) =>
+                        $get('occupancy_type') === 'tenant'
+                    )
                     ->schema([
                          TextInput::make('agreement_no')
                             ->label('চুক্তি নম্বর')
-                            ->required(),
+                            ->required()
+                            ->default(function () {
+
+                                do {
+                                    $agreementNo = now()->format('Ym')
+                                        .rand(1000, 9999);
+                                } while (
+                                    \App\Models\RentalAgreement::where(
+                                        'agreement_no',
+                                        $agreementNo
+                                    )->exists()
+                                );
+
+                                return $agreementNo;
+                            })
+                            ->disabled()
+                            ->dehydrated()
+                            ->rules(function ($record) {
+                                return [
+                                    Rule::unique('rental_agreements', 'agreement_no')
+                                        ->ignore(
+                                            $record?->currentAgreement?->id
+                                        ),
+                                ];
+                            }),
 
                         DatePicker::make('agreement_start_date')
                             ->label('চুক্তি শুরুর তারিখ')

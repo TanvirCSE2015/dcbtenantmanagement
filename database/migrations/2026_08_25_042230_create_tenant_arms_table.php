@@ -19,6 +19,8 @@ return new class extends Migration
              $table->string('arms_category');
             $table->string('arms_number')->unique();
 
+            $table->string('arms_reg_number')->unique();
+
             $table->date('validity_date')->nullable();
 
             $table->string('ammunition_details')->nullable();

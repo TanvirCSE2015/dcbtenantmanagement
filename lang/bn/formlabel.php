@@ -107,8 +107,9 @@ return [
 
     'arms_category'=>'অস্ত্রের ধরণ',
     'arms_number'=>'অস্ত্রের নাম্বার',
-    'validity_date'=>'মেয়াদোত্তীর্ণের তারিখ',
+    'validity_date'=>'রেজিঃ মেয়াদোত্তীর্ণের তারিখ',
     'issued_from'=>'ইস্যুর স্থান',
-    'ammunition_details' => 'বুলেটের বিবরণ',
+    'ammunition_details' => 'বুলেটের সংখ্যা',
+    'arms_reg_number' => 'অস্ত্রের রেজিঃ নম্বর',
 
 ];

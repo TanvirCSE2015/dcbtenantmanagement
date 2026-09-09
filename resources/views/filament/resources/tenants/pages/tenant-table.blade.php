@@ -12,7 +12,7 @@
 
     {{-- Table --}}
     <x-filament::section
-    heading="ভাড়াটিয়াদের তালিকা"
+    heading="বসবাসকারীদের তালিকা"
         icon="heroicon-m-user-group" icon-color="info">
 
         {{ $this->table }}

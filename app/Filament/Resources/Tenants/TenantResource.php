@@ -25,12 +25,12 @@ class TenantResource extends Resource
 
     public static function getModelLabel(): string
     {
-        return ('ভাড়াটিয়া');
+        return ('বসবাসকারী');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return ('ভাড়াটিয়াগণ');
+        return ('বসবাসকারী');
     }
 
 

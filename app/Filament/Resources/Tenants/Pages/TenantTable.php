@@ -30,7 +30,7 @@ class TenantTable extends Page implements HasTable,HasForms
 
     public function getTitle(): string
     {
-        return __('ভাড়াটিয়া');
+        return __('বসবাসকারী');
     }
 
      public ?int $area_id = null;

@@ -15,6 +15,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
@@ -46,29 +47,42 @@ class ArmsRelationManager extends RelationManager
                 // TextInput::make('rental_agreement_id')
                 //     ->required()
                 //     ->numeric(),
-                Select::make('arms_category')
-                    ->label(__('formlabel.arms_category'))
-                    ->options([
-                        'পিস্তল' => 'পিস্তল',
-                        'রাইফেল' => 'রাইফেল',
-                        'শর্টগান' => 'শর্টগান',
-                        'রিবালবার' => 'রিবালবার',
+                Grid::make(3)
+                    ->schema([
+                        Select::make('arms_category')
+                            ->label(__('formlabel.arms_category'))
+                            ->options([
+                                'পিস্তল' => 'পিস্তল',
+                                'রাইফেল' => 'রাইফেল',
+                                'শর্টগান' => 'শর্টগান',
+                                'রিবালবার' => 'রিবালবার',
+                            ])
+                            ->required(),
+                        TextInput::make('arms_number')
+                            ->label(__('formlabel.arms_number'))
+                            ->required(),
+                        TextInput::make('arms_reg_number')
+                            ->label(__('formlabel.arms_reg_number'))
+                            ->required(),
+                       
+                ])
+                ->columnSpanFull(),
+                Grid::make(4)
+                    ->schema([
+                        DatePicker::make('validity_date')
+                                    ->label(__('formlabel.validity_date')),
+                        TextInput::make('ammunition_details')
+                            ->default(null)
+                            ->label(__('formlabel.ammunition_details')),
+                        TextInput::make('issued_from')
+                            ->default(null)
+                            ->label(__('formlabel.issued_from')),
+                        Toggle::make('is_active')
+                            ->label(__('formlabel.is_active'))
+                            ->required()
+                            ->default(true),
                     ])
-                    ->required(),
-                TextInput::make('arms_number')
-                    ->label(__('formlabel.arms_number'))
-                    ->required(),
-                DatePicker::make('validity_date')
-                    ->label(__('formlabel.validity_date')),
-                TextInput::make('ammunition_details')
-                    ->default(null)
-                    ->label(__('formlabel.ammunition_details')),
-                TextInput::make('issued_from')
-                    ->default(null)
-                    ->label(__('formlabel.issued_from')),
-                Toggle::make('is_active')
-                    ->label(__('formlabel.is_active'))
-                    ->required(),
+                    ->columnSpanFull(),
             ]);
     }
 

@@ -34,6 +34,7 @@ class EditTenant extends EditRecord
                 ->label('ফ্ল্যাট খালি করুন')
                 ->icon('heroicon-o-home')
                 ->color('info')
+                ->visible(fn () => $this->record->currentAgreement?->occupancy?->occupancy_type === 'tenant')
                 ->requiresConfirmation()
                 ->action(function () {
 
@@ -71,9 +72,9 @@ class EditTenant extends EditRecord
                 ->label('চুক্তি নবায়ন')
                 ->icon('heroicon-o-arrow-path')
                 ->color('success')
-
+                ->visible(fn () => $this->record->currentAgreement?->occupancy?->occupancy_type === 'tenant')
                 ->schema([
-                    Section::make('ভাড়াটিয়া নবায়নের চুক্তিপত্র')
+                    Section::make('ভাড়াটিয়া নবায়নের চুক্তিপত্র')
                         ->icon('heroicon-o-document-text')
                         ->schema([
                             TextInput::make('agreement_no')
@@ -319,6 +320,8 @@ class EditTenant extends EditRecord
             $data['monthly_rent'] = $agreement->monthly_rent;
             $data['security_deposit'] = $agreement->security_deposit;
 
+            $data['occupancy_type'] =$agreement->occupancy->occupancy_type;
+
             if ($agreement->emergencyContact) {
 
                 $data['name']
@@ -383,13 +386,16 @@ class EditTenant extends EditRecord
                     $data['flat_id'] = $occupancy->flat_id;  
                     
                 }
-                $agreement->update([
-                    'agreement_no' => $data['agreement_no'],
-                    'agreement_start_date' => $data['agreement_start_date'],
-                    'agreement_end_date' => $data['agreement_end_date'],
-                    'monthly_rent' => $data['monthly_rent'],
-                    'security_deposit' => $data['security_deposit'],
-                ]);
+                
+                if($agreement->occupancy->occupancy_type === 'tenant'){
+                    $agreement->update([
+                        'agreement_no' => $data['agreement_no'],
+                        'agreement_start_date' => $data['agreement_start_date'],
+                        'agreement_end_date' => $data['agreement_end_date'],
+                        'monthly_rent' => $data['monthly_rent'],
+                        'security_deposit' => $data['security_deposit'],
+                    ]);
+                }
 
                 $agreement->emergencyContact()?->update([
                     'name' => $data['name'],
