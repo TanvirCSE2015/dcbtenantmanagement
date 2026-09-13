@@ -18,7 +18,7 @@ class PrintController extends Controller
         'rentalAgreements',
         'currentAgreement.occupancy.flat.floor.building.plot.area',
         'currentAgreement.occupancy.flat.currentOwners.user',
-        'tenantFamilyMembers',
+        'tenantFamilyMembers','arms',
         'vechicles','currentAgreement.profession',
         'rentalAgreements.driverAssignments.staff',
         'housemaidAssignments.staff',
