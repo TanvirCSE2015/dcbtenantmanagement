@@ -1243,7 +1243,7 @@
         <!-- ===============================
              FOOTER
         ================================ -->
-        <div class="footer">
+        {{-- <div class="footer">
 
             <div class="date-box">
                 <strong>তারিখঃ</strong>
@@ -1259,7 +1259,7 @@
 
             </div>
 
-        </div>
+        </div> --}}
 
 
     </div>

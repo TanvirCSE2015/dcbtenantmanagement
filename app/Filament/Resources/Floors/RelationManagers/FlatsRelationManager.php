@@ -29,7 +29,7 @@ class FlatsRelationManager extends RelationManager
                 TextInput::make('flat_side')
                     ->default(null),
                 TextInput::make('flat_area')
-                    ->numeric()
+                    ->suffix('বর্গফুট')
                     ->default(null),
             ]);
     }

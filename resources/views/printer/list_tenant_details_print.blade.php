@@ -639,7 +639,7 @@
          A4 PAGE
     ================================ -->
     @foreach ($records as $tenant)
-    <div class="page">
+<div class="page">
 
 
         <!-- ===============================
@@ -797,8 +797,18 @@
                 <div class="blank-line">{{$tenant->email}}</div>
             </div>
 
+            <div class="field-row two-fields">
+                <div class="serial">৮।</div>
 
-            <div class="field-row">
+                <div class="label">জাতীয় পরিচয়পত্র নম্বর</div>
+                <div class="blank-line">{{$tenant->nid_no}}</div>
+
+                <div class="label">পাসপোর্ট নম্বর</div>
+                <div class="blank-line">{{$tenant->passport_no}}</div>
+            </div>
+
+
+            {{-- <div class="field-row">
                 <div class="serial">৮।</div>
                 <div class="label">জাতীয় পরিচয়পত্র নম্বর</div>
                 <div class="blank-line">{{$tenant->nid_no}}</div>
@@ -809,7 +819,7 @@
                 <div class="serial">৯।</div>
                 <div class="label">পাসপোর্ট নম্বর (যদি থাকে)</div>
                 <div class="blank-line">{{$tenant->passport_no}}</div>
-            </div>
+            </div> --}}
 
 
             <div class="field-row">
@@ -857,9 +867,9 @@
 
                 <thead>
                     <tr>
-                        <th style="width: 8%;">ক্রমিক</th>
+                        <th style="width: 6%;">ক্রমিক</th>
                         <th style="width: 28%;">নাম</th>
-                        <th style="width: 10%;">বয়স</th>
+                        <th style="width: 12%;">বয়স</th>
                         <th style="width: 18%;">সম্পর্ক</th>
                         <th style="width: 18%;">পেশা</th>
                         <th style="width: 18%;">মোবাইল নম্বর</th>
@@ -872,7 +882,7 @@
                     
                 
                     <tr>
-                        <td>{{$key+1}}</td>
+                        <td>{{en2bn($key+1)}}</td>
                         <td>{{$item->name}}</td>
                         <td></td>
                         <td>{{$item->relation}}</td>
@@ -888,24 +898,6 @@
                         <td></td>
                         <td></td>
                     </tr> --}}
-
-                    <tr>
-                        <td>৩</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-
-                    <tr>
-                        <td>৪</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
 
                 </tbody>
 
@@ -966,76 +958,46 @@
 
         </div>
 
-
         <!-- ===============================
-             DRIVER
+            Vechiles
         ================================ -->
-        <div class="section">
+
+         <div class="section">
 
             <div class="section-title">
-                ১৩। ড্রাইভারের তথ্য (যদি থাকে)
+                ১৩। গাড়ির তথ্য (যদি থাকে)
             </div>
-
-
-            {{-- <div class="double-column">
-
-                <div>
-
-                    <div class="small-field">
-                        <div class="label">ড্রাইভারের নাম</div>
-                        <div class="blank-line"></div>
-                    </div>
-
-                    <div class="small-field">
-                        <div class="label">মোবাইল নম্বর</div>
-                        <div class="blank-line"></div>
-                    </div>
-
-                </div>
-
-
-                <div>
-
-                    <div class="small-field">
-                        <div class="label">জাতীয় পরিচয়পত্র নং</div>
-                        <div class="blank-line"></div>
-                    </div>
-
-                    <div class="small-field">
-                        <div class="label">স্থায়ী ঠিকানা</div>
-                        <div class="blank-line"></div>
-                    </div>
-
-                </div>
-
-            </div> --}}
 
 
             <table class="family-table">
 
                 <thead>
                     <tr>
-                        <th style="width: 8%;">ক্রমিক</th>
-                        <th style="width: 28%;">নাম</th>
-                        <th style="width: 10%;">মোবাইল নম্বর</th>
-                        <th style="width: 18%;">জাতীয় পরিচয়পত্র নং</th>
-                        <th style="width: 18%;">স্থায়ী ঠিকানা</th>
+                        <th style="width: 5%;">ক্রমিক</th>
+                        <th style="width: 28%;">গাড়ির ধরণ</th>
+                        <th style="width: 13%;">মডেল</th>
+                        <th style="width: 18%;">রেজিস্ট্রেশন নম্বর</th>
+                        <th style="width: 18%;">ব্র্যান্ড ও কালার</th>
                     </tr>
                 </thead>
 
 
                 <tbody>
-                @foreach ($tenant->driverAssignments as $key => $item)
+                @forelse ($tenant->vechicles as $key => $item)
                     
                 
                     <tr>
-                        <td>{{$key+1}}</td>
-                        <td>{{$item->staff->full_name}}</td>
-                        <td>{{$item->staff->mobile}}</td>
-                        <td>{{$item->staff->nid_no}}</td>
-                        <td></td>
+                        <td>{{en2bn($key+1)}}</td>
+                        <td>{{$item->vehicle_type}}</td>
+                        <td>{{$item->model}}</td>
+                        <td>{{$item->registration_no}}</td>
+                        <td>{{$item->brand}} - {{$item->color}}</td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="5" class="text-center">কোন গাড়ি রেজিস্টার করা হয়নি</td>
+                    </tr>
+                @endforelse
                     {{-- <tr>
                         <td>২</td>
                         <td></td>
@@ -1055,6 +1017,176 @@
 
         </div>
 
+        <!-- ===============================
+             DRIVER
+        ================================ -->
+        <div class="section">
+
+            <div class="section-title">
+                ১৪। ড্রাইভারের তথ্য (যদি থাকে)
+            </div>
+
+
+            <table class="family-table">
+
+                <thead>
+                    <tr>
+                        <th style="width: 5%;">ক্রমিক</th>
+                        <th style="width: 28%;">নাম</th>
+                        <th style="width: 13%;">মোবাইল নম্বর</th>
+                        <th style="width: 18%;">জাতীয় পরিচয়পত্র নং</th>
+                        <th style="width: 18%;">স্থায়ী ঠিকানা</th>
+                    </tr>
+                </thead>
+
+
+                <tbody>
+                @forelse ($tenant->driverAssignments as $key => $item)
+                    
+                
+                    <tr>
+                        <td>{{en2bn($key+1)}}</td>
+                        <td>{{$item->staff->full_name}}</td>
+                        <td>{{$item->staff->mobile}}</td>
+                        <td>{{$item->staff->nid_no}}</td>
+                        <td></td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="5" class="text-center">কোন ড্রাইভার রেজিস্টার করা হয়নি</td>
+                    </tr>
+                @endforelse
+                    {{-- <tr>
+                        <td>২</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr> --}}
+
+                    
+
+                </tbody>
+
+            </table>
+
+        
+
+        </div>
+
+         <!-- ===============================
+             House maid
+        ================================ -->
+        <div class="section">
+
+            <div class="section-title">
+                ১৫। গৃহকর্মীর তথ্য
+            </div>
+
+
+            <table class="family-table">
+
+                <thead>
+                    <tr>
+                        <th style="width: 5%;">ক্রমিক</th>
+                        <th style="width: 28%;">নাম</th>
+                        <th style="width: 13%;">মোবাইল নম্বর</th>
+                        <th style="width: 18%;">জাতীয় পরিচয়পত্র নং</th>
+                        <th style="width: 18%;">স্থায়ী ঠিকানা</th>
+                    </tr>
+                </thead>
+
+
+                <tbody>
+                @forelse ($tenant->houseMaidAssignments as $key => $item)
+                    
+                
+                    <tr>
+                        <td>{{en2bn($key+1)}}</td>
+                        <td>{{$item->staff->full_name}}</td>
+                        <td>{{$item->staff->mobile}}</td>
+                        <td>{{$item->staff->nid_no}}</td>
+                        <td></td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="5" class="text-center">কোন গৃহকর্মী রেজিস্টার করা হয়নি</td>
+                    </tr>
+                @endforelse
+                    {{-- <tr>
+                        <td>২</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr> --}}
+
+                    
+
+                </tbody>
+
+            </table>
+
+        
+
+        </div>
+        <!-- ===============================
+             FAMILY MEMBERS
+        ================================ -->
+        <div class="section">
+
+            <div class="section-title">
+                ১৬। আগ্ন্যাস্ত্র/হাতিয়ার/বন্দুকের তথ্য
+            </div>
+
+
+            <table class="family-table">
+
+                <thead>
+                    <tr>
+                        <th style="width: 6%;">ক্রমিক</th>
+                        <th style="width: 20%;">অস্ত্রের ধরণ</th>
+                        <th style="width: 20%;">রেজিস্ট্রেশন নাম্বার</th>
+                        <th style="width: 18%;">রেজিস্ট্রেশন মেয়াদ</th>
+                        <th style="width: 18%;">বুলেটের তথ্য</th>
+                        <th style="width: 18%;">ইস্যুর স্থান</th>
+                    </tr>
+                </thead>
+
+
+                <tbody>
+                @forelse ($tenant->arms as $key => $item)
+                    
+                
+                    <tr>
+                        <td>{{en2bn($key+1)}}</td>
+                        <td>{{$item->arms_category}}</td>
+                        <td>{{$item->arms_reg_number}}</td>
+                        <td>{{$item->validity_date}}</td>
+                        <td>{{($item->ammunition_details) ? $item->ammunition_details : 'N/A'}}</td>
+                        <td>{{$item->issued_from}}</td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="6" class="text-center">কোন অস্ত্র রেজিস্টার করা হয়নি</td>
+                    </tr>
+                @endforelse
+                    {{-- <tr>
+                        <td>২</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr> --}}
+
+                </tbody>
+
+            </table>
+
+        </div>
 
         <!-- ===============================
              OTHER INFORMATION
@@ -1063,7 +1195,7 @@
 
 
             <div class="full-field">
-                <div class="serial">১৪।</div>
+                <div class="serial">১৭।</div>
                 <div class="label">
                     বর্তমান বাসায় বসবাসের তারিখ
                 </div>
@@ -1072,7 +1204,7 @@
 
 
             <div class="full-field">
-                <div class="serial">১৫।</div>
+                <div class="serial">১৮।</div>
                 <div class="label">
                     পূর্বের বাসস্থানের ঠিকানা
                 </div>
@@ -1081,7 +1213,7 @@
 
 
             <div class="full-field">
-                <div class="serial">১৬।</div>
+                <div class="serial">১৯।</div>
                 <div class="label">
                     পূর্বের বাড়ির মালিকের নাম ও মোবাইল নম্বর
                 </div>
@@ -1090,7 +1222,7 @@
 
 
             <div class="full-field">
-                <div class="serial">১৭।</div>
+                <div class="serial">২০।</div>
                 <div class="label">
                     কোন মামলা/অপরাধে পূর্বে গ্রেফতার বা দণ্ডপ্রাপ্ত হয়েছেন কিনা
                 </div>
@@ -1099,7 +1231,7 @@
 
 
             <div class="full-field">
-                <div class="serial">১৮।</div>
+                <div class="serial">২১।</div>
                 <div class="label">
                     কোন অভিযোগে বর্তমানে মামলা বিচারাধীন আছে কিনা
                 </div>
@@ -1112,7 +1244,7 @@
         <!-- ===============================
              FOOTER
         ================================ -->
-        <div class="footer">
+        {{-- <div class="footer">
 
             <div class="date-box">
                 <strong>তারিখঃ</strong>
@@ -1128,7 +1260,7 @@
 
             </div>
 
-        </div>
+        </div> --}}
 
 
     </div>
@@ -1143,5 +1275,13 @@
         }
     </script>
 </body>
+@php
+   function en2bn($number) {
+    $bn_digits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+    $en_digits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
+    return str_replace($en_digits, $bn_digits, $number);
+  }
+@endphp
 </html>
+

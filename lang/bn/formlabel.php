@@ -60,7 +60,7 @@ return [
     'end_date' => 'শেষের তারিখ',
 
     // Tenant
-    'tenant_name' => 'ভাড়াটিয়ার নাম',
+    'tenant_name' => 'বসবাসকারীর নাম',
     'father_name' => 'পিতার নাম',
     'mother_name' => 'মাতার নাম',
     'date_of_birth' => 'জন্ম তারিখ',

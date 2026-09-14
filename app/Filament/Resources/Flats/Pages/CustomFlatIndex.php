@@ -6,12 +6,14 @@ use App\Filament\Resources\Flats\FlatResource;
 use App\Models\Area;
 use App\Models\Flat;
 use App\Models\Plot;
+use Filament\Actions\CreateAction;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Resources\Pages\Page;
 use Filament\Schemas\Components\Grid;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
@@ -29,6 +31,12 @@ class CustomFlatIndex extends Page implements HasTable,HasForms
 
     public ?int $area_id = null;
     public ?int $plot_id = null;
+    public ?string $status = null;
+
+    public function mount(): void
+    {
+        $this->status = request()->query('status') ?? null;
+    }
 
 
     public function getFormSchema(): array
@@ -75,6 +83,19 @@ class CustomFlatIndex extends Page implements HasTable,HasForms
 
                             $this->resetTable();
                         }),
+
+                        Select::make('status')
+                        ->label('ফ্ল্যাটের অবস্থা')
+                        ->options([
+                            'all' => 'সকল ফ্ল্যাট',
+                            'vacant' => 'খালি ফ্ল্যাট',
+                            'occupied' => 'দখলকৃত ফ্ল্যাট',
+                        ])
+                        ->default('all')
+                        ->live()
+                        ->afterStateUpdated(function ($state) {
+                            $this->resetTable();
+                        }),
                     ])
 
         ];
@@ -95,7 +116,41 @@ class CustomFlatIndex extends Page implements HasTable,HasForms
                 $query->whereHas('floor.building.plot', function ($query) {
                     $query->where('id', $this->plot_id);
                 });
-            });
+            })
+            ->when(
+            $this->status === 'vacant',
+            function (Builder $query) {
+
+                $query->where(function (Builder $query) {
+
+                    // ১. Current occupancy = vacant
+                    $query->whereHas('occupancies', function (Builder $query) {
+                        $query
+                            ->where('occupancy_type', 'vacant')
+                            ->where('is_current', true);
+                    })
+
+                    // ২. কখনো কোনো occupancy ছিল না
+                    ->orWhereDoesntHave('occupancies');
+
+                });
+            }
+        )
+
+        // দখলকৃত ফ্ল্যাট
+        ->when(
+            $this->status === 'occupied',
+            function (Builder $query) {
+
+                $query->whereHas('occupancies', function (Builder $query) {
+                    $query->where('is_current', true)
+                        ->whereIn('occupancy_type', [
+                            'tenant',
+                            'owner',
+                        ]);
+                });
+            }
+        );
     }
 
     protected function getTableColumns(): array
@@ -183,6 +238,14 @@ class CustomFlatIndex extends Page implements HasTable,HasForms
                 ->label('')
                 ->icon('heroicon-o-pencil-square')
                 ->tooltip('সম্পাদনা করুন')
+        ];
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            // CreateAction::make()
+            //     ->icon(Heroicon::Plus),
         ];
     }
     

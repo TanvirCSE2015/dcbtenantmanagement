@@ -36,7 +36,12 @@ class TenantTable extends Page implements HasTable,HasForms
      public ?int $area_id = null;
      public ?int $plot_id = null;
      public ?string $type=null;
+     public ?string $tenant_type=null;
 
+    public function mount(): void
+    {
+        $this->tenant_type = request()->query('type') ?? null;
+    }
 
     public function getFormSchema(): array
     {
@@ -78,6 +83,17 @@ class TenantTable extends Page implements HasTable,HasForms
                         ->preload()
                         ->live()
                         ->disabled(fn () => ! $this->area_id)
+                        ->afterStateUpdated(function () {
+
+                            $this->resetTable();
+                        }),
+                    Select::make('tenant_type')
+                        ->label('বসবাসকারীর ধরণ')
+                        ->options([
+                            'tenant' => 'ভাড়াটিয়া',
+                            'owner' => 'নিজ বসতি',
+                        ])
+                        ->live()
                         ->afterStateUpdated(function () {
 
                             $this->resetTable();
@@ -137,6 +153,21 @@ class TenantTable extends Page implements HasTable,HasForms
                         }
                     );
                 }
+            )
+            ->when(
+                $this->tenant_type,
+                function (Builder $query) {
+
+                    $query->whereHas(
+                        'currentAgreement.occupancy',
+                        function (Builder $query) {
+
+                            $query->where(
+                                ['occupancy_type' => $this->tenant_type, 'is_current' => true]
+                            );
+                        }
+                    );
+                }
             );
     }
 
@@ -149,9 +180,9 @@ class TenantTable extends Page implements HasTable,HasForms
                 ->searchable()
                 ->sortable(),
 
-            TextColumn::make('father_name')
-                ->label(__('formlabel.father_name'))
-                ->searchable(),
+            // TextColumn::make('father_name')
+            //     ->label(__('formlabel.father_name'))
+            //     ->searchable(),
 
             TextColumn::make('mobile')
                 ->label(__('formlabel.mobile'))
@@ -181,6 +212,21 @@ class TenantTable extends Page implements HasTable,HasForms
                 'currentAgreement.occupancy.flat.flat_no'
             )
                 ->label('ফ্ল্যাট'),
+            TextColumn::make('currentAgreement.occupancy.occupancy_type')
+                ->label(__('formlabel.occupancy_type'))
+                ->searchable()
+                ->formatStateUsing(fn ($state) => match ($state) {
+                    'tenant' => 'ভাড়াটিয়া',
+                    'owner' => 'নিজ বসতি',
+                    default => $state,
+                })
+                ->badge()
+                ->color(fn ($state) => match ($state) {
+                    'tenant' => 'warning',
+                    'owner' => 'success',
+                    default => 'gray',
+                }),
+
 
         ];
     }

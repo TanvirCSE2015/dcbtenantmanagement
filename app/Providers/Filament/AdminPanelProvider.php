@@ -29,7 +29,9 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->viteTheme('resources/css/filament/admin/theme.css')
-            ->brandName('ভাড়াটিয়াদের তথ্যাবলী')
+            ->brandName('বসবাসকারীদের তথ্যাবলী')
+            ->brandLogo('/images/brands/logo.png')
+            ->favicon('/images/brands/favicon.png')
             ->login()
             ->globalSearch(false)
             ->colors([

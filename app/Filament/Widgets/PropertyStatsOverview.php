@@ -2,6 +2,10 @@
 
 namespace App\Filament\Widgets;
 
+use App\Filament\Resources\Areas\AreaResource;
+use App\Filament\Resources\Flats\FlatResource;
+use App\Filament\Resources\Plots\PlotResource;
+use App\Filament\Resources\Tenants\TenantResource;
 use App\Models\Area;
 use App\Models\Flat;
 use App\Models\Occupancy;
@@ -94,7 +98,8 @@ class PropertyStatsOverview extends StatsOverviewWidget
                 ->color('white')
                 ->extraAttributes([
                     'class' => 'property-stat stat-area',
-                ]),
+                ])
+                ->url(AreaResource::getUrl('index')),
 
 
             // 2. মোট প্লট
@@ -107,7 +112,8 @@ class PropertyStatsOverview extends StatsOverviewWidget
                 ->color('white')
                 ->extraAttributes([
                     'class' => 'property-stat stat-plot',
-                ]),
+                ])
+                ->url(PlotResource::getUrl('index')),
 
 
             // 3. মোট ফ্ল্যাট
@@ -120,10 +126,12 @@ class PropertyStatsOverview extends StatsOverviewWidget
                 ->color('white')
                 ->extraAttributes([
                     'class' => 'property-stat stat-flat',
-                ]),
+                ])
+                ->url(FlatResource::getUrl('index')),
 
 
-            // 4. বর্তমান ভাড়াটিয়া
+
+            // 4. বর্তমান ভাড়াটিয়া
             Stat::make(
                     'বর্তমান ভাড়াটিয়া',
                     $this->en2bn(number_format($currentTenants))
@@ -133,7 +141,8 @@ class PropertyStatsOverview extends StatsOverviewWidget
                 ->color('white')
                 ->extraAttributes([
                     'class' => 'property-stat stat-tenant',
-                ]),
+                ])
+                ->url(TenantResource::getUrl('index',['type' => 'tenant'])),
 
 
             // 5. বর্তমান নিজ বসতি
@@ -146,7 +155,8 @@ class PropertyStatsOverview extends StatsOverviewWidget
                 ->color('white')
                 ->extraAttributes([
                     'class' => 'property-stat stat-owner',
-                ]),
+                ])
+                ->url(TenantResource::getUrl('index',['type' => 'owner'])),
 
 
             // 6. খালি ফ্ল্যাট
@@ -159,7 +169,8 @@ class PropertyStatsOverview extends StatsOverviewWidget
                 ->color('white')
                 ->extraAttributes([
                     'class' => 'property-stat stat-vacant',
-                ]),
+                ])
+                ->url(FlatResource::getUrl('index',['status' => 'vacant'])),
 
         ];
     }
