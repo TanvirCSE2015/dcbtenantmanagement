@@ -6,7 +6,9 @@ use App\Filament\Resources\Tenants\Pages\CreateTenant;
 use App\Filament\Resources\Tenants\Pages\EditTenant;
 use App\Filament\Resources\Tenants\Pages\ListTenants;
 use App\Filament\Resources\Tenants\Pages\TenantTable;
+use App\Filament\Resources\Tenants\Pages\ViewTenant;
 use App\Filament\Resources\Tenants\Schemas\TenantForm;
+use App\Filament\Resources\Tenants\Schemas\TenantInfolist;
 use App\Filament\Resources\Tenants\Tables\TenantsTable;
 use App\Models\Tenant;
 use BackedEnum;
@@ -38,6 +40,7 @@ class TenantResource extends Resource
     {
         return TenantForm::configure($schema);
     }
+
 
     public static function table(Table $table): Table
     {

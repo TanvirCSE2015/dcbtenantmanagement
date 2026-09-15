@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('mobile')->nullable();
             $table->string('profession')->nullable();
             $table->string('photo')->nullable();
+            $table->enum('status', ['pending', 'approved','rejected'])->default('pending');
             $table->timestamps();
         });
     }

@@ -18,6 +18,6 @@ class DriverAssignment extends Model
 
     public function vehicle()
     {
-        return $this->belongsTo(Vechicle::class);
+        return $this->belongsTo(Vechicle::class, 'vechicle_id');
     }
 }

@@ -1,273 +1,130 @@
 <?php
 
-namespace App\Filament\Resources\Tenants\Pages;
+namespace App\Filament\Widgets;
 
-use App\Filament\Resources\Tenants\TenantResource;
-use App\Models\Area;
-use App\Models\Plot;
 use App\Models\Tenant;
 use Filament\Actions\Action;
-use Filament\Actions\CreateAction;
-use Filament\Actions\EditAction;
-use Filament\Actions\ViewAction;
+use Filament\Actions\BulkActionGroup;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
-use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Components\ViewEntry;
-use Filament\Resources\Pages\Page;
+use Filament\Notifications\Notification;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Concerns\InteractsWithTable;
-use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Table;
+use Filament\Widgets\TableWidget;
 use Illuminate\Database\Eloquent\Builder;
-use Override;
 
-class TenantTable extends Page implements HasTable,HasForms
+class PendingTenantTable extends TableWidget
 {
-    use InteractsWithTable,InteractsWithForms;
-    protected static string $resource = TenantResource::class;
+    protected static bool $isLazy = false;
 
-    protected string $view = 'filament.resources.tenants.pages.tenant-table';
-
-    public function getTitle(): string
-    {
-        return __('বসবাসকারী');
+    protected function getTableHeading(): string { 
+        $count = Tenant::query() ->where('status', 'pending') ->count(); 
+        return "নতুন বসবাসকারী (" . $this->en2bn($count) . ")";
     }
 
-     public ?int $area_id = null;
-     public ?int $plot_id = null;
-     public ?string $type=null;
-     public ?string $tenant_type=null;
-
-    public function mount(): void
-    {
-        $this->tenant_type = request()->query('type') ?? null;
+    protected function getTableEmptyStateHeading(): string { 
+        return 'কোনো নতুন বসবাসকারী নেই'; 
     }
 
-    public function getFormSchema(): array
-    {
-        return [
-            Grid::make(4)
-                ->schema([
-                    Select::make('area_id')
-                        ->label('এরিয়া')
-                        ->options(
-                            Area::query()
-                                ->orderBy('area_name')
-                                ->pluck('area_name', 'id')
-                        )
-                        ->searchable()
-                        ->preload()
-                        ->live()
-                        ->afterStateUpdated(function () {
-
-                            $this->plot_id = null;
-
-                            $this->resetTable();
-                        }),
-
-
-                    Select::make('plot_id')
-                        ->label('প্লট')
-                        ->options(function () {
-
-                            if (! $this->area_id) {
-                                return [];
-                            }
-
-                            return Plot::query()
-                                ->where('area_id', $this->area_id)
-                                ->orderBy('plot_no')
-                                ->pluck('plot_no', 'id');
-                        })
-                        ->searchable()
-                        ->preload()
-                        ->live()
-                        ->disabled(fn () => ! $this->area_id)
-                        ->afterStateUpdated(function () {
-
-                            $this->resetTable();
-                        }),
-                    Select::make('tenant_type')
-                        ->label('বসবাসকারীর ধরণ')
-                        ->options([
-                            'tenant' => 'ভাড়াটিয়া',
-                            'owner' => 'নিজ বসতি',
-                        ])
-                        ->live()
-                        ->afterStateUpdated(function () {
-
-                            $this->resetTable();
-                        }),
-                    
-                    Select::make('type')
-                        ->label('রিপোর্টের ধরণ')
-                        ->options([
-                            'list' => 'তালিকা',
-                            'details' => 'বিস্তারিত',
-                        ])
-                        ->live(),
-                    ])
-
-        ];
-        
+    protected function getTableEmptyStateDescription(): ?string { 
+        return 'নতুন বসবাসকারী তালিকাভুক্ত হলে এখানে প্রদর্শিত হবে।'; 
     }
 
-
-    protected function getTableQuery(): Builder
-    {
-        return Tenant::query()
-
-            ->with([
-                'currentAgreement.occupancy.flat.floor.building.plot.area',
-            ])
-
-            ->when(
-                $this->area_id,
-                function (Builder $query) {
-
-                    $query->whereHas(
-                        'currentAgreement.occupancy.flat.floor.building.plot',
-                        function (Builder $query) {
-
-                            $query->where(
-                                'area_id',
-                                $this->area_id
-                            );
-                        }
-                    );
-                }
-            )
-
-            ->when(
-                $this->plot_id,
-                function (Builder $query) {
-
-                    $query->whereHas(
-                        'currentAgreement.occupancy.flat.floor.building.plot',
-                        function (Builder $query) {
-
-                            $query->where(
-                                'id',
-                                $this->plot_id
-                            );
-                        }
-                    );
-                }
-            )
-            ->when(
-                $this->tenant_type,
-                function (Builder $query) {
-
-                    $query->whereHas(
-                        'currentAgreement.occupancy',
-                        function (Builder $query) {
-
-                            $query->where(
-                                ['occupancy_type' => $this->tenant_type, 'is_current' => true]
-                            );
-                        }
-                    );
-                }
-            );
+    protected function en2bn($number) { 
+        $en = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']; 
+        $bn = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯']; 
+        return str_replace($en, $bn, $number); 
     }
-
-    protected function getTableColumns(): array
+    // protected static ?string $heading = 'নতুন বসবাসকারী';
+    protected static ?int $sort = 2; 
+    protected int|string|array $columnSpan = 'full';
+    public function table(Table $table): Table
     {
-        return [
-
-            TextColumn::make('tenant_name')
+        return $table
+            ->query(fn (): Builder => Tenant::query()
+            ->with([ 'rentalAgreements.occupancy.flat.floor.building.plot.area', ])
+            ->where('status', 'pending'))
+            ->extraAttributes([ 'class' => 'pending-tenant-table-3d', ])
+            ->columns([
+                TextColumn::make('tenant_name')
                 ->label(__('formlabel.tenant_name'))
                 ->searchable()
                 ->sortable(),
 
-            // TextColumn::make('father_name')
-            //     ->label(__('formlabel.father_name'))
-            //     ->searchable(),
+                // TextColumn::make('father_name')
+                //     ->label(__('formlabel.father_name'))
+                //     ->searchable(),
 
-            TextColumn::make('mobile')
-                ->label(__('formlabel.mobile'))
-                ->searchable(),
+                TextColumn::make('mobile')
+                    ->label(__('formlabel.mobile'))
+                    ->searchable(),
 
-            TextColumn::make(
-                'currentAgreement.occupancy.flat.floor.building.plot.area.area_name'
-            )
-                ->label('এরিয়া'),
+                TextColumn::make(
+                    'currentAgreement.occupancy.flat.floor.building.plot.area.area_name'
+                )
+                    ->label(__('formlabel.area')),
 
-            TextColumn::make(
-                'currentAgreement.occupancy.flat.floor.building.plot.plot_no'
-            )
-                ->label('প্লট'),
+                TextColumn::make(
+                    'currentAgreement.occupancy.flat.floor.building.plot.plot_no'
+                )
+                ->label(__('formlabel.plot_no')),
 
-            TextColumn::make(
-                'currentAgreement.occupancy.flat.floor.building.building_name'
-            )
-                ->label('ভবন'),
-
-            TextColumn::make(
-                'currentAgreement.occupancy.flat.floor.floor_name'
-            )
-                ->label('ফ্লোর'),
-
-            TextColumn::make(
+                TextColumn::make(
                 'currentAgreement.occupancy.flat.flat_no'
             )
-                ->label('ফ্ল্যাট'),
+                ->label(__('formlabel.flat_no')),
             TextColumn::make('currentAgreement.occupancy.occupancy_type')
                 ->label(__('formlabel.occupancy_type'))
                 ->searchable()
                 ->formatStateUsing(fn ($state) => match ($state) {
-                    'tenant' => 'ভাড়াটিয়া',
+                    'tenant' => 'ভাড়াটিয়া',
                     'owner' => 'নিজ বসতি',
                     default => $state,
                 })
                 ->badge()
                 ->color(fn ($state) => match ($state) {
-                    'tenant' => 'warning',
+                    'tenant' => 'info',
                     'owner' => 'success',
                     default => 'gray',
                 }),
+            TextColumn::make('status') 
+            ->label('স্ট্যাটাস') ->badge() 
+            ->formatStateUsing( fn (string $state): string => match ($state) { 'pending' => 'পেন্ডিং', 'approved' => 'অনুমোদিত', 'rejected' => 'বাতিল', default => $state, } ) 
+            ->color( fn (string $state): string => match ($state) 
+            { 'pending' => 'warning', 'approved' => 'success', 'rejected' => 'danger', default => 'gray', } ),
 
+            ])
+            ->filters([
+                //
+            ])
+            ->headerActions([
+                //
+            ])
+            // ->recordActions([
+            //     Action::make('update_status') 
+            //     ->label('') 
+            //     ->tooltip('স্ট্যাটাস পরিবর্তন করুন')
+            //     ->icon('heroicon-m-pencil-square') 
+            //     ->color('primary') 
+            //     ->requiresConfirmation()
+            //     ->schema([ Select::make('status') ->label('স্ট্যাটাস') 
+            //     ->options([ 'pending' => 'পেন্ডিং', 'approved' => 'অনুমোদিত', 'rejected' => 'বাতিল', ]) 
+            //     ->default(fn (Tenant $record) => $record->status) ->required(), ]) 
+            //     ->modalHeading('বসবাসকারীর স্ট্যাটাস পরিবর্তন করুন') ->modalSubmitActionLabel('স্ট্যাটাস আপডেট করুন') 
+            //     ->modalCancelActionLabel('বাতিল') 
+            //     ->action(function ( Tenant $record, array $data ): void { 
+            //         $record->update([ 'status' => $data['status'], ]); 
+            //     }),
+                
+            // ])
+            ->recordActions([
 
-        ];
-    }
-
-    protected function getHeaderActions(): array
-    {
-        return [
-            CreateAction::make()
-                ->label('নতুন ভাড়াটিয়া')
-                ->icon(Heroicon::Plus)
-                ->tooltip('নতুন ভাড়াটিয়া তৈরি করুন'),
-                // ->url(fn ($record) => route('filament.resources.tasks.edit', $record)),
-            
-        ];
-    }
-
-    protected function getTableActions(): array
-    {
-        return [
-            
-            EditAction::make()
-                ->label('')
-                ->tooltip('সম্পাদনা করুন'),
-                // ->url(fn ($record) => route('filament.resources.tasks.edit', $record)),
-            Action::make('single_print')
-                ->label('')
-                ->icon(Heroicon::Printer)
-                ->tooltip('রিপোর্ট প্রিন্ট করুন')
-                ->color('success')
-                ->url(fn ($record) => route('single-tenant.print', [
-                        'tenant' => $record->id,
-                    ]))
-                ->openUrlInNewTab(),
-             Action::make('view')
-                    ->label('')
+                Action::make('view')
+                    ->label('বিস্তারিত')
                     ->tooltip('বিস্তারিত দেখুন')
                     ->icon('heroicon-m-eye')
                     ->color('info')
@@ -293,7 +150,6 @@ class TenantTable extends Page implements HasTable,HasForms
                         $area = $plot?->area;
 
                         $owner = $flat?->currentOwners?->first();
-                        
 
                         return [
 
@@ -302,6 +158,7 @@ class TenantTable extends Page implements HasTable,HasForms
                             | Location
                             |--------------------------------------------------------------------------
                             */
+
                             Grid::make(4)
                                 ->schema([
 
@@ -389,13 +246,6 @@ class TenantTable extends Page implements HasTable,HasForms
 
                                 ])
                                 ->columnSpanFull(),
-
-                            /*
-                            |--------------------------------------------------------------------------
-                            | Tenant Information
-                            |--------------------------------------------------------------------------
-                            */
-
                             Section::make('বসবাসকারীর ব্যক্তিগত তথ্য')
                                 ->icon('heroicon-o-user')
                                 ->columns(4)
@@ -714,7 +564,7 @@ class TenantTable extends Page implements HasTable,HasForms
                                             TextEntry::make('staff.nid_no')
                                                 ->label('NID'),
 
-                                            TextEntry::make('vehicle.registration_no')
+                                            TextEntry::make('vechicle.registration_no')
                                                 ->label('গাড়ির নম্বর'),
 
                                         ])
@@ -830,27 +680,52 @@ class TenantTable extends Page implements HasTable,HasForms
                                 ->collapsed(),
 
                         ];
-                    }),
+                    })
 
-        ];
-    }
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Approve Button
+                    |--------------------------------------------------------------------------
+                    */
 
+                    ->extraModalFooterActions([
 
-    protected function getTableHeaderActions(): array
-    {
-        return[
-            Action::make('list_print')
-                ->label('প্রিন্ট রিপোর্ট')
-                ->icon(Heroicon::Printer)
-                // ->tooltip('রিপোর্ট প্রিন্ট করুন')
-                ->color('success')
-                ->url(fn ($record) => route('list-tenant.print', [
-                        'area' => $this->area_id,
-                        'plot' => $this->plot_id,
-                        'type' => $this->type,
-                    ]))
-                ->openUrlInNewTab(),
-        ];
+                        Action::make('approve')
+                            ->label('অনুমোদন করুন')
+                            ->icon('heroicon-o-check-circle')
+                            ->color('success')
+                            ->requiresConfirmation()
+                            ->modalHeading('বসবাসকারী অনুমোদন করুন')
+                            ->modalDescription(
+                                'আপনি কি এই বসবাসকারীর আবেদন অনুমোদন করতে চান?'
+                            )
+                            ->modalSubmitActionLabel('হ্যাঁ, অনুমোদন করুন')
+                            ->action(function (Tenant $record) {
+
+                                $record->update([
+                                    'status' => 'approved',
+                                ]);
+
+                                Notification::make()
+                                ->title('বসবাসকারী অনুমোদিত')
+                                ->body(
+                                    "{$record->tenant_name}-এর আবেদন সফলভাবে অনুমোদন করা হয়েছে।"
+                                )
+                                ->success()
+                                ->duration(5000)
+                                ->send();
+
+                            }),
+
+                    ]),
+
+            ])
+
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    //
+                ]),
+            ]);
     }
 
     private function floorOrdinal($floor): string
